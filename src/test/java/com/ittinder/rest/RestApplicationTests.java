@@ -1,10 +1,10 @@
-package com.snj.api.SNJ.API;
+package com.ittinder.rest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SnjApiApplicationTests {
+class RestApplicationTests {
 
 	@Test
 	void contextLoads() {
