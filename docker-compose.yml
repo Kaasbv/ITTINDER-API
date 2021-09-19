@@ -1,0 +1,9 @@
+version: '3'
+services:
+  database:
+    image: mariadb:10.4
+    command: --sql-mode=""
+    environment:
+      MYSQL_ROOT_PASSWORD: Start1234%
+    ports:
+    - "3306:3306"
