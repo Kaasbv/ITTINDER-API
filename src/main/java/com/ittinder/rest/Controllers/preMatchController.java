@@ -1,31 +1,25 @@
 package com.ittinder.rest.Controllers;
 
-import com.ittinder.rest.Entities.Cat;
-import com.ittinder.rest.Repositories.CatRepository;
-// import org.springframework.web.bind.annotation.GetMapping;
+import com.ittinder.rest.Entities.preMatch;
+import com.ittinder.rest.Repositories.preMatchRespository;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-// import org.springframework.web.bind.annotation.DeleteMapping;
-// import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.PathVariable;
-// import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 // import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class CatController {
+public class preMatchController {
   //Add create cat method here
-  private final CatRepository catRepository;
+  private final com.ittinder.rest.Repositories.preMatchRespository preMatchRespository;
 
-  CatController(CatRepository repository){
-    this.catRepository = repository;
+  preMatchController(preMatchRespository repository){
+    this.preMatchRespository = repository;
   }
 
-  @PostMapping("/cat")
-  public String createCat(@RequestBody String name) {
-    Cat newCat = new Cat(name);
-    catRepository.save(newCat);
-    return "Created cat: " + name;
+  @PostMapping("/preMatch")
+  public String createPreMatch(@RequestBody String initiatedUser) {
+    preMatch newPreMatch = new preMatch(initiatedUser);
+    preMatchRespository.save(newPreMatch);
+    return "Created preMatch: " + initiatedUser;
   }
 }

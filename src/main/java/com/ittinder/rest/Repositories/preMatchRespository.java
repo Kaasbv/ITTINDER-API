@@ -1,8 +1,8 @@
 package com.ittinder.rest.Repositories;
 
+import com.ittinder.rest.Entities.preMatch;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.ittinder.rest.Entities.Cat;
 
-public interface CatRepository extends JpaRepository<Cat, Long> {
+public interface preMatchRespository extends JpaRepository<preMatch, Long> {
 
 }
