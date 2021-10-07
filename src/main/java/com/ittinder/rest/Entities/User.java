@@ -18,33 +18,33 @@ public class User {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @NotEmpty(message = "First name can't be empty")
+  //@NotEmpty(message = "First name can't be empty")
   @Size(min = 2, max = 15)
   private String firstName;
 
   private String middleName;
 
-  @NotEmpty(message = "Last name can't be empty")
+  //@NotEmpty(message = "Last name can't be empty")
   @Size(min = 2, max = 15)
   private String surname;
 
   @Past
   private LocalDate dateOfBirth;
 
-  @NotEmpty
+  //@NotEmpty
   @Email(message = "Email should be valid")
   private String email;
 
   //Create custom annotation @ValidPassword
   private String password;
 
-  @NotEmpty(message = "You have to fill in a gender")
+  //@NotEmpty(message = "You have to fill in a gender")
   private String gender;
 
-  @NotEmpty(message = "You have to be interested in a gender")
+  //@NotEmpty(message = "You have to be interested in a gender")
   private String interestedInGender;
 
-  @NotEmpty(message = "You have to fill in a description")
+  //@NotEmpty(message = "You have to fill in a description")
   @Size(min = 10, max = 256, message = "Description must be between 10 and 256 characters")
   private String description;
 
@@ -55,9 +55,8 @@ public class User {
 
   // constructor
   // Nog niet zeker welke velden mee worden genomen in defitinieve constructor
-  public User(String firstName, String middleName, String surname, String email) {
+  public User(String firstName, String surname, String email) {
     this.firstName = firstName;
-    this.middleName = middleName;
     this.surname = surname;
     this.email = email;
   }
@@ -183,4 +182,24 @@ public class User {
     this.description = description;
   }
   /****************END OF SETTERS****************/
+
+  @Override
+  public String toString() {
+    return "User{" +
+            "id=" + id +
+            ", firstName='" + firstName + '\'' +
+            ", middleName='" + middleName + '\'' +
+            ", surname='" + surname + '\'' +
+            ", dateOfBirth=" + dateOfBirth +
+            ", email='" + email + '\'' +
+            ", password='" + password + '\'' +
+            ", gender='" + gender + '\'' +
+            ", interestedInGender='" + interestedInGender + '\'' +
+            ", description='" + description + '\'' +
+            ", lastLogin=" + lastLogin +
+            ", latitude=" + latitude +
+            ", longitude=" + longitude +
+            ", currentLocation='" + currentLocation + '\'' +
+            '}';
+  }
 }

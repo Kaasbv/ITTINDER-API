@@ -2,10 +2,12 @@ package com.ittinder.rest.Controllers;
 
 import com.ittinder.rest.Entities.User;
 import com.ittinder.rest.Repositories.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 
 @RestController
 public class UserController {
@@ -16,12 +18,17 @@ public class UserController {
     this.userRepository = repository;
   }
 
-  //Postmapping met meerdere values is me nog niet gelukt helaas...
-  @PostMapping("/user/registration")
-  public String createUser(@RequestBody String name) {
-    User newUser = new User(name);
-    userRepository.save(newUser);
-    return "Registered user: " + name;
+  //Postmapping multiple values from constructor in User class
+  @PostMapping( "/user")
+  public ResponseEntity<HttpStatus> createUser(@RequestBody User newUser) {
+    User user = newUser;
+    userRepository.save(user);
+    return ResponseEntity.ok(HttpStatus.OK);
+  }
+
+  @GetMapping()
+  public void getUser() {
+
   }
 }
 
