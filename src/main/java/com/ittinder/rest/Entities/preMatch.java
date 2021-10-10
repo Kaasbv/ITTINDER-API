@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
+@lombok.Getter
+@lombok.Setter
 public class preMatch {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,5 +21,14 @@ public class preMatch {
 
     private boolean affectedUserChoice;
 
-    public preMatch(String initiatedUser) { this.initiatedUser = initiatedUser;}
+    public preMatch(String initiatedUser, String affectedUser, boolean initiatedUserChoice, boolean affectedUserChoice) {
+        this.initiatedUser = initiatedUser;
+        this.affectedUser = affectedUser;
+        this.initiatedUserChoice = initiatedUserChoice;
+        this.affectedUserChoice = affectedUserChoice;
+    }
+
+    public preMatch() {
+
+    }
 }
