@@ -66,7 +66,6 @@ public class User {
               LocalDate dateOfBirth,
               String email,
               String password,
-              String matchingPassword,
               String gender,
               String interestedInGender,
               String description) {

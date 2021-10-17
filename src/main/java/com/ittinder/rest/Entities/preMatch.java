@@ -8,7 +8,7 @@ import javax.persistence.Id;
 @Entity
 public class preMatch {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long preMatchId;
 
     private String initiatedUser;
@@ -20,4 +20,6 @@ public class preMatch {
     private boolean affectedUserChoice;
 
     public preMatch(String initiatedUser) { this.initiatedUser = initiatedUser;}
+
+    public preMatch(){}
 }
