@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class User {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @NotEmpty(message = "First name can't be empty")
@@ -66,6 +66,8 @@ public class User {
   public User(String firstName) {
     this.firstName = firstName;
   }
+
+  public User(){}
 
 
   /****************GETTERS****************/

@@ -1,5 +1,6 @@
 package com.ittinder.rest.Entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +13,7 @@ import javax.persistence.OrderColumn;
 @Entity
 public class Chat {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
   
   @OneToOne
@@ -21,13 +22,14 @@ public class Chat {
   @OneToOne
   private User affectedUser;
 
-  @OneToMany
-  @JoinColumn(name = "chat_id")
+  @OneToMany(mappedBy = "chat", cascade = { CascadeType.ALL }, orphanRemoval = true)
   @OrderColumn(name = "id")
   private Message[] messages;
 
-  protected Chat(User iniatedUser, User affectedUser) {
+  public Chat(User iniatedUser, User affectedUser) {
     this.iniatedUser = iniatedUser;
     this.affectedUser = affectedUser;
   }
+
+  public Chat(){}
 }
