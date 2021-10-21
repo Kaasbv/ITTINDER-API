@@ -1,22 +1,26 @@
 package com.ittinder.rest.Entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
+@lombok.Setter
+@lombok.Getter
+@Table(name = "user")
 public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+  private int id;
 
   @NotEmpty(message = "First name can't be empty")
   @Size(min = 2, max = 15)
@@ -53,23 +57,39 @@ public class User {
   private double longitude;
   private String currentLocation;
 
+
+  @JsonManagedReference
+  @OneToMany(mappedBy="initiatedUser",cascade=CascadeType.ALL, fetch = FetchType.LAZY )
+  Set<preMatch> preMatchAsInitiated;
+
+  @JsonManagedReference
+  @OneToMany(mappedBy="affectedUser",cascade=CascadeType.ALL, fetch = FetchType.LAZY )
+  Set<preMatch> preMatchAsAffected;
+
+
   // constructor
   // Nog niet zeker welke velden mee worden genomen in defitinieve constructor
-  public User(String firstName, String middleName, String surname, String email) {
+
+  public User(String firstName, String middleName, String surname, String email, Set<preMatch> preMatch) {
     this.firstName = firstName;
     this.middleName = middleName;
     this.surname = surname;
     this.email = email;
   }
 
+
   // overloading constructor
   public User(String firstName) {
     this.firstName = firstName;
   }
 
+  public User() {
+
+  }
+
 
   /****************GETTERS****************/
-  public Long getId() {
+  public int getId() {
     return id;
   }
 
@@ -124,10 +144,12 @@ public class User {
   public String getDescription() {
     return description;
   }
-  /****************END OF GETTERS****************/
+
+/****************END OF GETTERS****************/
+
 
   /****************SETTERS****************/
-  public void setId(Long id) {
+  public void setId(int id) {
     this.id = id;
   }
 
@@ -182,5 +204,8 @@ public class User {
   public void setDescription(String description) {
     this.description = description;
   }
+
+
+
   /****************END OF SETTERS****************/
 }

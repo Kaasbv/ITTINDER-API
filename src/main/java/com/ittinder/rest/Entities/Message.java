@@ -29,6 +29,10 @@ public class Message {
     // this.createdDate = new java.util.Date().toString();
   }
 
+  public Message() {
+
+  }
+
   public String getMessage() {
     return message;
   }
