@@ -61,15 +61,4 @@ public class ChatServiceTest {
     assertNotNull(message);
   }
 
-  // @Test
-  // public void testPostMessage() {
-  //   //Arrange
-  //   Chat arrangedChat = mock(Chat.class);
-  //   when(chatRepository.getById((long)1)).thenReturn(arrangedChat);
-  //   //Act
-  //   Message message = sut.postMessage((long)1, "Ik ben jimmy en ik houd heel erg van programmeren");
-  //   //Assert
-  //   assertNotNull(message);
-  // }
-
 }
