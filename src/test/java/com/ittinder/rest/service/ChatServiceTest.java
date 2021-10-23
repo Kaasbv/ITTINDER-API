@@ -21,25 +21,55 @@ import com.ittinder.rest.Entities.User;
 import com.ittinder.rest.Service.ChatService;
 
 public class ChatServiceTest {
-  private ChatService chatService;
+  private ChatService sut;
+  private ChatRepository chatRepository;
+  private MessageRepository messageRepository;
+  private UserRepository userRepository;
 
   @BeforeEach
   public void beforeEach() {
-      ChatRepository chatRepository = mock(ChatRepository.class);
-      MessageRepository messageRepository = mock(MessageRepository.class);
-      UserRepository userRepository = mock(UserRepository.class);
+    chatRepository = mock(ChatRepository.class);
+    messageRepository = mock(MessageRepository.class);
+    userRepository = mock(UserRepository.class);
 
-      List<Message> messages = new ArrayList<Message>();
-      messages.add(mock(Message.class));
-      when(messageRepository.findByCreatedDateBetweenAndChatId("2021-01-01 00:00:00", "2021-01-01 00:00:00", (long)1)).thenReturn(messages);
+    User user = mock(User.class);
+    when(userRepository.getById((long)1)).thenReturn(user);
 
-      chatService = new ChatService(chatRepository, messageRepository, userRepository);
+    sut = new ChatService(chatRepository, messageRepository, userRepository);
   } 
+  
+  @Test
+  public void testGetChatMessages() {
+    //Arrange
+    List<Message> arrangedMessages = new ArrayList<Message>();
+    arrangedMessages.add(mock(Message.class));
+    when(messageRepository.findByCreatedDateBetweenAndChatId("2021-01-01 00:00:00", "2021-01-01 00:00:00", (long)1)).thenReturn(arrangedMessages);
+    //Act
+    List<Message> messages = sut.getChatMessages((long)1, "2021-01-01 00:00:00", "2021-01-01 00:00:00");
+    //Assert
+    assertNotNull(messages);
+  }
 
   @Test
-  //Test getChatMessages
-  public void testGetChatMessages() {
-      List<Message> messages = chatService.getChatMessages((long)1, "2021-01-01 00:00:00", "2021-01-01 00:00:00");
-      assertNotNull(messages);
+  public void testPostMessage() {
+    //Arrange
+    Chat arrangedChat = mock(Chat.class);
+    when(chatRepository.getById((long)1)).thenReturn(arrangedChat);
+    //Act
+    Message message = sut.postMessage((long)1, "Ik ben jimmy en ik houd heel erg van programmeren");
+    //Assert
+    assertNotNull(message);
   }
+
+  // @Test
+  // public void testPostMessage() {
+  //   //Arrange
+  //   Chat arrangedChat = mock(Chat.class);
+  //   when(chatRepository.getById((long)1)).thenReturn(arrangedChat);
+  //   //Act
+  //   Message message = sut.postMessage((long)1, "Ik ben jimmy en ik houd heel erg van programmeren");
+  //   //Assert
+  //   assertNotNull(message);
+  // }
+
 }
