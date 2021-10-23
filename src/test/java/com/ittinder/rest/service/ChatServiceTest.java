@@ -1,5 +1,6 @@
 package com.ittinder.rest.service;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -39,6 +40,7 @@ public class ChatServiceTest {
   } 
   
   @Test
+  @DisplayName("Testing getChatMessages")
   public void testGetChatMessages() {
     //Arrange
     List<Message> arrangedMessages = new ArrayList<Message>();
@@ -51,6 +53,7 @@ public class ChatServiceTest {
   }
 
   @Test
+  @DisplayName("Testing postMessage")
   public void testPostMessage() {
     //Arrange
     Chat arrangedChat = mock(Chat.class);
