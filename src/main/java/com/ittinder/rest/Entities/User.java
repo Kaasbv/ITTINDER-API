@@ -1,8 +1,10 @@
 package com.ittinder.rest.Entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ittinder.rest.ValidPassword;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -10,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 @Getter
 @Setter
 @Entity
@@ -23,6 +26,7 @@ public class User {
   @Size(min = 2, max = 15)
   private String firstName;
 
+  @Size(max = 6)
   private String middleName;
 
   @NotEmpty(message = "Last name can't be empty")
@@ -34,23 +38,21 @@ public class User {
   @NotNull(message = "Date of birth must be filled in")
   private LocalDate dateOfBirth;
 
-  @NotEmpty(message = "Email can't be empty")
   @Email(message = "Email should be valid")
   @Column(unique = true)
+  @NotNull
   private String email;
 
-  @ValidPassword(message = "Password must contain a special and uppercase character, and be at least eight characters long")
-  @NotEmpty(message = "Email can't be empty")
+  @ValidPassword(message = "Password must contain a special and uppercase character, and have a length of at least eight characters")
+  @NotEmpty(message = "password can't be empty")
   private String password;
-  private String matchingPassword;
 
-  @NotEmpty(message = "You have to fill in a gender")
+  //Gender options on frontend
   private String gender;
 
-  @NotEmpty(message = "You have to be interested in a gender")
+  //Gender options on frontend
   private String interestedInGender;
 
-  @NotEmpty(message = "You have to fill in a description")
   @Size(min = 10, max = 256, message = "Description must be between 10 and 256 characters")
   private String description;
 
@@ -66,7 +68,6 @@ public class User {
               LocalDate dateOfBirth,
               String email,
               String password,
-              String matchingPassword,
               String gender,
               String interestedInGender,
               String description) {
@@ -76,33 +77,13 @@ public class User {
     this.dateOfBirth = dateOfBirth;
     this.email = email;
     this.password = password;
-    this.matchingPassword = matchingPassword;
     this.gender = gender;
     this.interestedInGender = interestedInGender;
     this.description = description;
   }
 
+  //Empty constructor for JPA
   public User() {
   }
 
-
-  @Override
-  public String toString() {
-    return "User{" +
-            "id=" + id +
-            ", firstName='" + firstName + '\'' +
-            ", middleName='" + middleName + '\'' +
-            ", surname='" + surname + '\'' +
-            ", dateOfBirth=" + dateOfBirth +
-            ", email='" + email + '\'' +
-            ", password='" + password + '\'' +
-            ", gender='" + gender + '\'' +
-            ", interestedInGender='" + interestedInGender + '\'' +
-            ", description='" + description + '\'' +
-            ", lastLogin=" + lastLogin +
-            ", latitude=" + latitude +
-            ", longitude=" + longitude +
-            ", currentLocation='" + currentLocation + '\'' +
-            '}';
-  }
 }
