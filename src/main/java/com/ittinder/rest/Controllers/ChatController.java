@@ -6,6 +6,7 @@ import com.ittinder.rest.Entities.User;
 import com.ittinder.rest.Repositories.ChatRepository;
 import com.ittinder.rest.Repositories.MessageRepository;
 import com.ittinder.rest.Repositories.UserRepository;
+import com.ittinder.rest.Service.SessionService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
@@ -23,11 +24,18 @@ public class ChatController {
   private final ChatRepository chatRepository;
   private final MessageRepository messageRepository;
   private final UserRepository userRepository;
+  private final SessionService sessionService;
 
-  ChatController(ChatRepository repository, MessageRepository messageRepository, UserRepository userRepository) {
+  ChatController(
+    ChatRepository repository,
+    MessageRepository messageRepository,
+    UserRepository userRepository,
+    SessionService sessionService
+    ) {
     this.chatRepository = repository;
     this.messageRepository = messageRepository;
     this.userRepository = userRepository;
+    this.sessionService = sessionService;
   }
 
   @GetMapping("/chat/{id}/messages")
@@ -37,7 +45,7 @@ public class ChatController {
 
   @PostMapping("/chat/{id}/messages")
   public Message postMessage(@PathVariable Long id, @RequestBody String message){
-    User currentUser = userRepository.getById((long)1);
+    User currentUser = sessionService.getUser();
     Chat chat = chatRepository.getById(id);
     Message newMessage = new Message(currentUser, chat, message);
     

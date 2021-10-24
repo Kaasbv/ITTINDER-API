@@ -1,4 +1,4 @@
-23package com.ittinder.rest.Entities;
+package com.ittinder.rest.Entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
