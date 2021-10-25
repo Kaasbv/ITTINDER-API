@@ -6,6 +6,7 @@ import com.ittinder.rest.Service.SessionService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.ittinder.rest.Entities.User;
 import com.ittinder.rest.Entities.UserPreference;
@@ -58,5 +59,26 @@ public class PreferencesController {
     });
 
     return ResponseEntity.ok(userPreferencesMap);
+  }
+
+  @PostMapping("/user")
+  public ResponseEntity<Map<String, Map<String, Boolean>>> updateUserPreferences(@RequestBody Map<String, Map<String, Boolean>> updateObject){
+    //First grab user preferences
+    User currentUser = sessionService.getUser();
+   
+    updateObject.forEach((String type, Map<String, Boolean> items) -> {
+      items.forEach((String name, Boolean preference) -> {
+        //Check if preference exists
+        Optional<UserPreference> userPreferenceOptional = userPreferenceRepository.findByValueAndTypeAndUserId(name, type, currentUser.getId());
+        if(!preference && userPreferenceOptional.isPresent()){//Need to be deleted
+          userPreferenceRepository.delete(userPreferenceOptional.get());
+        }else if(preference && !userPreferenceOptional.isPresent()){//Needs to be created
+          UserPreference userPreference = new UserPreference(currentUser, type, name);
+          userPreferenceRepository.save(userPreference);
+        }
+      });
+    });
+
+    return ResponseEntity.noContent().build();`
   }
 }

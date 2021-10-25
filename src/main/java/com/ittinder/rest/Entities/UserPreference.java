@@ -31,10 +31,15 @@ public class UserPreference {
   private static Map<String, String[]> preferences = Map.of(
     "musicgenres", new String[] {"pop", "rock", "hiphop", "jazz", "classical", "blues", "reggae", "country", "disco", "electronic", "folk", "latin", "metal", "rap", "soul", "techno", "other"},
     "programminglanguages", new String[] {"java", "c", "c++", "c#", "python", "javascript", "php", "ruby", "perl", "go", "scala", "swift", "objective-c", "other"}
-    // "girls", new String[] {"Cynthia"}
   );
 
   public UserPreference() {
+  }
+
+  public UserPreference(User user, String type, String value){
+    this.user = user;
+    this.type = type;
+    this.value = value;
   }
 
   public static Map<String, String[]> getPreferences() {
