@@ -34,47 +34,6 @@ public class preMatchController {
     return foundMatches;
   }
 
-  /*
-  @GetMapping("/Swiping")
-  public List<preMatch> checkForExistingPreMatch(@RequestParam(required = false) User user1, User user2){
-    return new ArrayList<>(preMatchRespository.findPreMatchByAffectedUserContainingAndInitiatedUserContainingOrInitiatedUserContainingAndAffectedUserContaining(user1, user2, user1, user2));
-  }
-
-   */
-
-/*
-  @PostMapping("/SwipeLeft")
-  @ResponseBody
-  public ResponseEntity<HttpStatus> SwipeLeft(@RequestParam int user1, @RequestParam int user2){
-    List<preMatch> foundPreMatch = new ArrayList<>(preMatchRespository.findPreMatchByAffectedUserContainingAndInitiatedUserContainingOrInitiatedUserContainingAndAffectedUserContaining(user1, user2, user1, user2));
-    Date date = new Date();
-
-
-    if (!foundPreMatch.isEmpty()){
-      preMatch preMatch = foundPreMatch.get(0);
-      if (preMatch.getInitiatedUser().getId() == user1){
-        preMatch.setInitiatedUserChoice(false);
-        preMatch.setInitiatedUserChangedDate(date);
-      }
-      else{
-        preMatch.setAffectedUserChoice(false);
-        preMatch.setAffectedUserChangedDate(date);
-      }
-      preMatchRespository.save(preMatch);
-    }
-    else {
-
-      preMatch preMatch = new preMatch();
-      preMatch.setInitiatedUser(user1);
-      preMatch.setAffectedUser(user2);
-      preMatch.setInitiatedUserChoice(false);
-      preMatchRespository.save(preMatch);
-    }
-    return ResponseEntity.ok(HttpStatus.OK);
-  }
-
- */
-
   @PostMapping("/SwipeRight")
   @ResponseBody
   public ResponseEntity<HttpStatus> SwipeRight(@RequestParam int idUser1, int idUser2){

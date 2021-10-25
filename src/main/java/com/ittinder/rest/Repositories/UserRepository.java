@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import javax.persistence.TypedQuery;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -28,11 +29,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 
  */
-    @Query ("Select u from User u left join fetch u.preMatchAsAffected pa left join u.preMatchAsInitiated pi " +
-            "where ((pa.initiatedUser.id <> :id or pi.affectedUser.id <> :id)  and (pa.preMatchId is null or pi.preMatchId is null) and u.id <> :id)" +
-            "or ((FUNCTION('DATEDIFF', CURRENT_DATE, pi.ChangedDate) >= 1 and FUNCTION('DATEDIFF', CURRENT_DATE, pa.ChangedDate) >= 1)" +
-            "and pa.initiatedUser.id = :id or pi.affectedUser.id = :id "  +
-            "and u.id <> :id)")
+    @Query ("Select u from User u left join u.preMatchAsAffected pa left join u.preMatchAsInitiated pi " +
+            "where ((pa.initiatedUser.id <> :id or pi.affectedUser.id <> :id) or (pa.preMatchId is null or pi.preMatchId is null)) ")
+             //"where ((pa.initiatedUser.id = :id and pa.preMatchId is null) or (pi.affectedUser.id = :id and pi.preMatchId is null)) ")
+            //"where pa.initiatedUser.id <> :id or pi.affectedUser.id <> :id")
+            //"or (((FUNCTION('DATEDIFF', current_date, pa.ChangedDate ) > 3 and FUNCTION('DATEDIFF',current_date ,pi.ChangedDate ) is null)" +
+            //"or (FUNCTION('DATEDIFF', current_date, pi.ChangedDate ) > 3 and FUNCTION('DATEDIFF',current_date ,pa.ChangedDate ) is null))" +
+            //"and (pa.initiatedUser.id = :id or pi.affectedUser.id = :id) "  +
+            //"and u.id <> :id)")
     List<User> findRandomUsers(@Param("id") Integer id, Pageable pageable);
 
     /*
