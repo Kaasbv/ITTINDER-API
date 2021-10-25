@@ -29,14 +29,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 
  */
-    @Query ("Select u from User u left join u.preMatchAsAffected pa left join u.preMatchAsInitiated pi " +
-            "where ((pa.initiatedUser.id <> :id or pi.affectedUser.id <> :id) or (pa.preMatchId is null or pi.preMatchId is null)) ")
-             //"where ((pa.initiatedUser.id = :id and pa.preMatchId is null) or (pi.affectedUser.id = :id and pi.preMatchId is null)) ")
-            //"where pa.initiatedUser.id <> :id or pi.affectedUser.id <> :id")
-            //"or (((FUNCTION('DATEDIFF', current_date, pa.ChangedDate ) > 3 and FUNCTION('DATEDIFF',current_date ,pi.ChangedDate ) is null)" +
-            //"or (FUNCTION('DATEDIFF', current_date, pi.ChangedDate ) > 3 and FUNCTION('DATEDIFF',current_date ,pa.ChangedDate ) is null))" +
-            //"and (pa.initiatedUser.id = :id or pi.affectedUser.id = :id) "  +
-            //"and u.id <> :id)")
+    @Query (value = "select * from `user`" +  
+        "left join pre_match on (pre_match.affected_user_id = :id or pre_match.initiated_user_id = :id) and (pre_match.affected_user_id = user.id or pre_match.initiated_user_id = user.id)" +
+        "where" +  
+            "(pre_match.pre_match_id is null OR " + 
+            "(pre_match.changed_date is null or DATEDIFF(CURDATE(), pre_match.changed_date) > 3))" +
+        "and user.id != :id", nativeQuery = true)
     List<User> findRandomUsers(@Param("id") Integer id, Pageable pageable);
 
     /*
