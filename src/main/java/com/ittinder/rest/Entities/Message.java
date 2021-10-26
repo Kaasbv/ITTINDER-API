@@ -5,12 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import java.time.Instant;
 
 @Entity
 public class Message {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
   private String createdDate;
@@ -27,10 +26,8 @@ public class Message {
     this.user = user;
     this.chat = chat;
     this.message = message;
-    this.createdDate = Instant.now().toString();
+    // this.createdDate = new java.util.Date().toString();
   }
-
-  public Message(){}
 
   public String getMessage() {
     return message;

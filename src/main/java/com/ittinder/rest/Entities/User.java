@@ -10,8 +10,6 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ittinder.rest.ValidPassword;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -71,6 +69,14 @@ public class User {
   private double longitude;
   private String currentLocation;
 
+  @JsonManagedReference
+  @OneToMany(mappedBy = "initiatedUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  Set<preMatch> preMatchAsInitiated;
+
+  @JsonManagedReference
+  @OneToMany(mappedBy = "affectedUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  Set<preMatch> preMatchAsAffected;
+
   // Constructor
   public User(String firstName,
               String middleName,
@@ -82,21 +88,11 @@ public class User {
               String interestedInGender,
               String description) {
 
-  @JsonManagedReference
-  @OneToMany(mappedBy="initiatedUser",cascade=CascadeType.ALL, fetch = FetchType.LAZY )
-  Set<preMatch> preMatchAsInitiated;
 
-  @JsonManagedReference
-  @OneToMany(mappedBy="affectedUser",cascade=CascadeType.ALL, fetch = FetchType.LAZY )
-  Set<preMatch> preMatchAsAffected;
-
-
-  // constructor
-  // Nog niet zeker welke velden mee worden genomen in defitinieve constructor
-
+  }
 
   //Empty constructor for JPA
   public User() {
-  }
 
+  }
 }

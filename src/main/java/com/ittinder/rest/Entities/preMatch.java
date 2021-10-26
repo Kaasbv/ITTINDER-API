@@ -42,9 +42,6 @@ public class preMatch {
 
     }
 
-    public preMatch(List<preMatch> firstPreMatchByAffectedUserContainingAndInitiatedUserContainingOrInitiatedUserContainingAndAffectedUserContaining) {
-    }
-
     public User getInitiatedUser() {
         return initiatedUser;
     }

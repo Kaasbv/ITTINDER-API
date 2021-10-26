@@ -15,7 +15,7 @@ public class Chat {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
-  
+
   @OneToOne
   private User iniatedUser;
 

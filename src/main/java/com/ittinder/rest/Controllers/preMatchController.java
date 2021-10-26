@@ -2,8 +2,10 @@ package com.ittinder.rest.Controllers;
 
 import com.ittinder.rest.Entities.User;
 import com.ittinder.rest.Entities.preMatch;
+import com.ittinder.rest.Entities.Chat;
 import com.ittinder.rest.Repositories.UserRepository;
 import com.ittinder.rest.Repositories.preMatchRespository;
+import com.ittinder.rest.Repositories.ChatRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +18,12 @@ import java.util.List;
 public class preMatchController {
   private final com.ittinder.rest.Repositories.preMatchRespository preMatchRespository;
   private final UserRepository userRepository;
+  private final ChatRepository chatRepository;
 
-  preMatchController(preMatchRespository repository, UserRepository userRepository){
+  preMatchController(preMatchRespository repository, UserRepository userRepository, ChatRepository chatRepository){
     this.preMatchRespository = repository;
     this.userRepository = userRepository;
+    this.chatRepository = chatRepository;
   }
   @GetMapping("/getPreMatches")
   public List<preMatch> getAll(@RequestParam(required = false) Integer initiatedUser){
@@ -36,7 +40,7 @@ public class preMatchController {
 
   @PostMapping("/SwipeRight")
   @ResponseBody
-  public ResponseEntity<HttpStatus> SwipeRight(@RequestParam int idUser1, int idUser2){
+  public ResponseEntity<HttpStatus> SwipeRight(@RequestParam long idUser1, long idUser2){
     User user1 = userRepository.getUserById(idUser1);
     User user2 = userRepository.getUserById(idUser2);
     preMatch preMatchFound = preMatchRespository.getPreMatchByAffectedUserAndInitiatedUserOrInitiatedUserAndAffectedUser(user1, user2, user1, user2);
@@ -68,7 +72,7 @@ public class preMatchController {
 
   @PostMapping("/SwipeLeft")
   @ResponseBody
-  public ResponseEntity<HttpStatus> SwipeLeft(@RequestParam Integer idUser1, Integer idUser2){
+  public ResponseEntity<HttpStatus> SwipeLeft(@RequestParam long idUser1, long idUser2){
     User user1 = userRepository.getUserById(idUser1);
     User user2 = userRepository.getUserById(idUser2);
     preMatch preMatchFound = preMatchRespository.getPreMatchByAffectedUserAndInitiatedUserOrInitiatedUserAndAffectedUser(user1, user2, user1, user2);
@@ -98,5 +102,6 @@ public class preMatchController {
     }
     return ResponseEntity.ok(HttpStatus.OK);
   }
+
 
 }
