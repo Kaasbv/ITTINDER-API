@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderColumn;
 
@@ -15,11 +17,11 @@ public class Chat {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
-
-  @OneToOne
+  
+  @ManyToOne
   private User iniatedUser;
 
-  @OneToOne
+  @ManyToOne
   private User affectedUser;
 
   @OneToMany(mappedBy = "chat", cascade = { CascadeType.ALL }, orphanRemoval = true)
