@@ -12,7 +12,7 @@ public class ChatService {
   private final MessageRepository messageRepository;
   private final UserRepository userRepository;
 
-  ChatService(ChatRepository repository, MessageRepository messageRepository, UserRepository userRepository) {
+  public ChatService(ChatRepository repository, MessageRepository messageRepository, UserRepository userRepository) {
     this.chatRepository = repository;
     this.messageRepository = messageRepository;
     this.userRepository = userRepository;
