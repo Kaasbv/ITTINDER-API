@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.ManyToAny;
 
 import java.time.Instant;
@@ -14,16 +15,18 @@ import java.time.Instant;
 @Entity
 public class Message {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
   private String createdDate;
 
   private String message;
 
+  @JsonIgnore
   @ManyToOne
   private Chat chat;
 
+  @JsonIgnore
   @ManyToOne
   private User user;
 
