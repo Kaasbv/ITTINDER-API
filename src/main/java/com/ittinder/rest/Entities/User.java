@@ -1,21 +1,29 @@
 package com.ittinder.rest.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ittinder.rest.ValidPassword;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.Optional;
 
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
-@Getter
-@Setter
 @Entity
+@lombok.Setter
+@lombok.Getter
+@Table(name = "user")
 public class User {
 
   @Id
@@ -61,6 +69,14 @@ public class User {
   private double longitude;
   private String currentLocation;
 
+  @JsonManagedReference
+  @OneToMany(mappedBy = "initiatedUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  Set<preMatch> preMatchAsInitiated;
+
+  @JsonManagedReference
+  @OneToMany(mappedBy = "affectedUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  Set<preMatch> preMatchAsAffected;
+
   // Constructor
   public User(String firstName,
               String middleName,
@@ -71,19 +87,12 @@ public class User {
               String gender,
               String interestedInGender,
               String description) {
-    this.firstName = firstName;
-    this.middleName = middleName;
-    this.surname = surname;
-    this.dateOfBirth = dateOfBirth;
-    this.email = email;
-    this.password = password;
-    this.gender = gender;
-    this.interestedInGender = interestedInGender;
-    this.description = description;
+
+
   }
 
   //Empty constructor for JPA
   public User() {
-  }
 
+  }
 }

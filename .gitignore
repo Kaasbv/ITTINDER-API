@@ -3,3 +3,6 @@ target
 .apt*
 .vscode
 .settings
+/idea/
+/target
+src/main/resources/application.properties/

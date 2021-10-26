@@ -1,25 +1,52 @@
 package com.ittinder.rest.Entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Entity
+@lombok.Getter
+@lombok.Setter
+@Table(name = "pre_match")
 public class preMatch {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long preMatchId;
 
-    private String initiatedUser;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private User initiatedUser;
 
-    private String affectedUser;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private User affectedUser;
 
     private boolean initiatedUserChoice;
 
     private boolean affectedUserChoice;
 
-    public preMatch(String initiatedUser) { this.initiatedUser = initiatedUser;}
+    private Date ChangedDate;
 
-    public preMatch(){}
+
+    public preMatch(User initiatedUser, User affectedUser) {
+        this.initiatedUser = initiatedUser;
+        this.affectedUser = affectedUser;
+    }
+
+    public preMatch() {
+
+    }
+
+    public User getInitiatedUser() {
+        return initiatedUser;
+    }
+
+    public User getAffectedUser() {
+        return affectedUser;
+    }
 }
