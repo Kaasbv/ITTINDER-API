@@ -4,7 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.ManyToAny;
+
 import java.time.Instant;
 
 @Entity
@@ -17,10 +21,10 @@ public class Message {
 
   private String message;
 
-  @OneToOne
+  @ManyToOne
   private Chat chat;
 
-  @OneToOne
+  @ManyToOne
   private User user;
 
   public Message(User user, Chat chat, String message) {
