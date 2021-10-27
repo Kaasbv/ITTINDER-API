@@ -109,9 +109,7 @@ public class preMatchController {
   public void createChat(preMatch preMatch) {
       Chat chat = new Chat();
       chat.setAffectedUser(preMatch.getAffectedUser());
-      chat.setIniatedUser(preMatch.getInitiatedUser());
+      chat.setInitiatedUser(preMatch.getInitiatedUser());
       chatRepository.save(chat);
   }
-
-
 }
