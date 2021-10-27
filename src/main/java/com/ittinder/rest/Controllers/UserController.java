@@ -1,9 +1,13 @@
 package com.ittinder.rest.Controllers;
 
 import ch.qos.logback.core.joran.conditional.ElseAction;
+
+import com.ittinder.rest.Entities.Chat;
 import com.ittinder.rest.Entities.User;
 import com.ittinder.rest.Entities.preMatch;
 import com.ittinder.rest.Repositories.UserRepository;
+import com.ittinder.rest.Service.UserService;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,43 +26,39 @@ import javax.websocket.server.PathParam;
 import java.util.*;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
   private final UserRepository userRepository;
+  private final UserService userService;
 
-  UserController(UserRepository repository) {
+  UserController(UserRepository repository, UserService service) {
     this.userRepository = repository;
+    this.userService = service;
   }
 
   //Creating a user
-  @PostMapping("/user")
+  @PostMapping
   public ResponseEntity<HttpStatus> createUser(@RequestBody User newUser) {
-    User user = newUser;
-    String email = user.getEmail();
+    String email = newUser.getEmail();
 
-    if (userRepository.findByEmailIgnoreCase(email).isEmpty()) {
-      userRepository.save(user);
+    if (!userService.checkIfEmailExists(email)) {
+      userRepository.save(newUser);
       return ResponseEntity.ok(HttpStatus.CREATED);
     } else {
       return ResponseEntity.ok(HttpStatus.CONFLICT);
     }
   }
 
-  //Get one user by id
-  @GetMapping("/user/{id}")
-  public User getUserById(@PathVariable Long id) {
-    return userRepository.getUserById(id);
+  //Get current logged in user by id
+  @GetMapping
+  public User getUser() {
+    return userService.getCurrentUser();
   }
 
-  //Get all users
-  @GetMapping("/users")
-  public List<User> getAllUsers() {
-    return userRepository.findAll();
-  }
 
   //Update user info
-  @PutMapping("/user/{id}/update")
-  public ResponseEntity<HttpStatus> updateUser(@PathVariable(value = "id") Long id,
-                                               @RequestBody User userDetails) {
+  @PutMapping("/update")
+  public ResponseEntity<HttpStatus> updateUser(@PathVariable(value = "id") Long id, @RequestBody User userDetails) {
     User user = userRepository.getUserById(id);
     String email = user.getEmail();
     String gender = user.getGender();
@@ -91,21 +91,8 @@ public class UserController {
     return ResponseEntity.ok(HttpStatus.NO_CONTENT);
   }
 
-  @GetMapping("/getUsers")
-  public List<User> getAll(@RequestParam(required = false) Integer id){
-    List<User> users = new ArrayList<>();
-
-    if (id == 0)  {
-      users.addAll(userRepository.findAll());
-    }
-    else {
-      users.addAll(userRepository.findUserById(id));
-    }
-    return users;
-  }
-
   @ResponseBody
-  @GetMapping("/randomUserStream")
+  @GetMapping("/stream")
   public List<User> getRandomUsers(@RequestParam Integer id){
     List<User> randomUsers = new ArrayList<>();
 
@@ -114,6 +101,15 @@ public class UserController {
     return  randomUsers;
   }
 
+  @GetMapping("/chats")
+  public List<Chat> getAll(@PathVariable Integer initiatedUser){
+    List<Chat> foundChats = new ArrayList<>();
+    return 
+    else {
+      foundChats.addAll(chatRepository.findChatByAffectedUserId(initiatedUser));
+    }
+    return foundChats;
+  }
 
 
 

@@ -4,10 +4,7 @@ import com.ittinder.rest.Entities.Chat;
 import com.ittinder.rest.Entities.Message;
 import com.ittinder.rest.Entities.User;
 import com.ittinder.rest.Entities.preMatch;
-import com.ittinder.rest.Repositories.ChatRepository;
-import com.ittinder.rest.Repositories.MessageRepository;
-import com.ittinder.rest.Repositories.UserRepository;
-import com.ittinder.rest.Service.SessionService;
+import com.ittinder.rest.Service.ChatService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
@@ -23,35 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class ChatController {
-  private final ChatRepository chatRepository;
-  private final MessageRepository messageRepository;
-  private final UserRepository userRepository;
-  private final SessionService sessionService;
+public class ChatController {}
+  private final ChatService chatService;
 
-  ChatController(
-    ChatRepository repository,
-    MessageRepository messageRepository,
-    UserRepository userRepository,
-    SessionService sessionService
-    ) {
-    this.chatRepository = repository;
-    this.messageRepository = messageRepository;
-    this.userRepository = userRepository;
-    this.sessionService = sessionService;
-  }
-
-  @GetMapping("/getChats")
-  public List<Chat> getAll(@RequestParam(required = false) Integer initiatedUser){
-    List<Chat> foundChats = new ArrayList<>();
-
-    if (initiatedUser == null) {
-      foundChats.addAll(chatRepository.findAll());
-    }
-    else {
-      foundChats.addAll(chatRepository.findChatByAffectedUserId(initiatedUser));
-    }
-    return foundChats;
+  ChatController(ChatService chatService) {
+    this.chatService = chatService;
   }
 
   @GetMapping("/chat/{id}/messages")
