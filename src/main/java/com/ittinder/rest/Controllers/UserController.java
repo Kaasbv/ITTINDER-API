@@ -46,7 +46,7 @@ public class UserController {
       userService.createUser(newUser);
       return ResponseEntity.ok(HttpStatus.CREATED);
     } else {
-      return ResponseEntity.ok(HttpStatus.CONFLICT);
+      return new ResponseEntity(HttpStatus.CONFLICT);
     }
   }
 

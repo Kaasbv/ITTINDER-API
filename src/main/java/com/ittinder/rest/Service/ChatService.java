@@ -25,6 +25,7 @@ public class ChatService {
     this.sessionService = sessionService;
   }
 
+  // Retrieves all chat messages between a given time period based on given chat id
   public List<Message> getChatMessages(Long id, String startDate, String endDate){
     return messageRepository.findByCreatedDateBetweenAndChatId(startDate, endDate, id);
   }
