@@ -6,6 +6,7 @@ import com.ittinder.rest.Entities.Chat;
 import com.ittinder.rest.Entities.User;
 import com.ittinder.rest.Entities.preMatch;
 import com.ittinder.rest.Repositories.UserRepository;
+import com.ittinder.rest.Service.ChatService;
 import com.ittinder.rest.Service.UserService;
 
 import org.springframework.data.domain.PageRequest;
@@ -28,11 +29,11 @@ import java.util.*;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-  private final UserRepository userRepository;
+  private final ChatService chatService;
   private final UserService userService;
 
-  UserController(UserRepository repository, UserService service) {
-    this.userRepository = repository;
+  UserController(ChatService chatService, UserService service) {
+    this.chatService = chatService;
     this.userService = service;
   }
 
@@ -42,7 +43,7 @@ public class UserController {
     String email = newUser.getEmail();
 
     if (!userService.checkIfEmailExists(email)) {
-      userRepository.save(newUser);
+      userService.createUser(newUser);
       return ResponseEntity.ok(HttpStatus.CREATED);
     } else {
       return ResponseEntity.ok(HttpStatus.CONFLICT);
@@ -55,66 +56,22 @@ public class UserController {
     return userService.getCurrentUser();
   }
 
-
   //Update user info
   @PutMapping("/update")
-  public ResponseEntity<HttpStatus> updateUser(@PathVariable(value = "id") Long id, @RequestBody User userDetails) {
-    User user = userRepository.getUserById(id);
-    String email = user.getEmail();
-    String gender = user.getGender();
-    String interestedInGender = user.getInterestedInGender();
-    String description = user.getDescription();
-
-    user.setEmail(userDetails.getEmail());
-    user.setGender(userDetails.getGender());
-    user.setInterestedInGender(userDetails.getInterestedInGender());
-    user.setDescription(userDetails.getDescription());
-
-    //Prevent DB setting null values when user does not change all fiels
-    if (user.getGender() == null) {
-      user.setGender(gender);
-    }
-
-    if (user.getEmail() == null) {
-      user.setEmail(email);
-    }
-
-    if (user.getInterestedInGender() == null) {
-      user.setInterestedInGender(interestedInGender);
-    }
-
-    if (user.getDescription() == null) {
-      user.setDescription(description);
-    }
-
-    userRepository.save(user);
+  public ResponseEntity<HttpStatus> updateUser(@RequestBody User userDetails) {
+    userService.updateUser(userDetails);
     return ResponseEntity.ok(HttpStatus.NO_CONTENT);
   }
 
   @ResponseBody
   @GetMapping("/stream")
-  public List<User> getRandomUsers(@RequestParam Integer id){
-    List<User> randomUsers = new ArrayList<>();
-
-    randomUsers.addAll(userRepository.findRandomUsers(id, PageRequest.of(0,10)));
-
-    return  randomUsers;
+  public List<User> getStream(){
+    return this.userService.getUserStream();
   }
 
   @GetMapping("/chats")
-  public List<Chat> getAll(@PathVariable Integer initiatedUser){
-    List<Chat> foundChats = new ArrayList<>();
-    return 
-    else {
-      foundChats.addAll(chatRepository.findChatByAffectedUserId(initiatedUser));
-    }
-    return foundChats;
+  public List<Chat> getChatsFromUser(){
+    return this.chatService.getChatsFromUser();
   }
-
-
-
-
-
-
 }
 

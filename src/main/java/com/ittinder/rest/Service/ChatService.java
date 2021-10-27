@@ -16,18 +16,13 @@ public class ChatService {
   public ChatService(
     ChatRepository repository,
     MessageRepository messageRepository,
-    UserRepository userRepository
+    UserRepository userRepository,
     SessionService sessionService
     ) {
     this.chatRepository = repository;
     this.messageRepository = messageRepository;
     this.userRepository = userRepository;
     this.sessionService = sessionService;
-  }
-
-  public List<Chat> getChatsFromUser() {
-    User currentUser = sessionService.getUser();
-    return chatRepository.findChatByAffectedUserId(initiatedUser)
   }
 
   public List<Message> getChatMessages(Long id, String startDate, String endDate){
@@ -46,5 +41,10 @@ public class ChatService {
 
   public void deleteChat(Long id){
     chatRepository.deleteById(id);
+  }
+
+  public List<Chat> getChatsFromUser(){
+    User currentUser = sessionService.getUser();
+    return chatRepository.findChatByAffectedUserIdOrInitiatedUserId(currentUser.getId(), currentUser.getId());
   }
 }

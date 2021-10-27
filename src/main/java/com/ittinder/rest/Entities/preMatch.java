@@ -18,11 +18,13 @@ public class preMatch {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long preMatchId;
 
-    @JsonIgnore
+    // @JsonIgnore
+    @JsonBackReference(value="user-prematch-initiated")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User initiatedUser;
 
-    @JsonIgnore
+    // @JsonIgnore
+    @JsonBackReference(value="user-prematch-affected")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User affectedUser;
 

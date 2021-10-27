@@ -21,23 +21,27 @@ import com.ittinder.rest.Entities.Chat;
 import com.ittinder.rest.Entities.Message;
 import com.ittinder.rest.Entities.User;
 import com.ittinder.rest.Service.ChatService;
+import com.ittinder.rest.Service.SessionService;
 
 public class ChatServiceTest {
   private ChatService sut;
   private ChatRepository chatRepository;
   private MessageRepository messageRepository;
   private UserRepository userRepository;
+  private SessionService sessionService;
 
   @BeforeEach
   public void beforeEach() {
     chatRepository = mock(ChatRepository.class);
     messageRepository = mock(MessageRepository.class);
     userRepository = mock(UserRepository.class);
+    sessionService = mock(SessionService.class);
 
     User user = mock(User.class);
-    when(userRepository.getById((long)1)).thenReturn(user);
+    when(sessionService.getUser()).thenReturn(user);
 
-    sut = new ChatService(chatRepository, messageRepository, userRepository);
+
+    sut = new ChatService(chatRepository, messageRepository, userRepository, sessionService);
   } 
   
   @Test
