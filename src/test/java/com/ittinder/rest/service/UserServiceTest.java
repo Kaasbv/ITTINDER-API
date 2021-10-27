@@ -35,7 +35,7 @@ public class UserServiceTest {
   
   @Test
   @DisplayName("Testing checkifEmailExists")
-  public void testGetChatMessages() {
+  public void testCheckIfEmailExists() {
     //Arrange
     ArrayList<User> emptyList = new ArrayList<>();
     when(userRepository.findByEmailIgnoreCase("test@gmail.com")).thenReturn(emptyList);
