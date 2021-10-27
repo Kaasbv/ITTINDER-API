@@ -1,5 +1,6 @@
 package com.ittinder.rest.Entities;
-
+import lombok.Getter;
+import lombok.Setter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -16,13 +17,13 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.Optional;
+import java.util.Set;
 
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
+@Getter
+@Setter
 @Entity
-@lombok.Setter
-@lombok.Getter
 @Table(name = "user")
 public class User {
 
@@ -64,6 +65,9 @@ public class User {
   @Size(min = 10, max = 256, message = "Description must be between 10 and 256 characters")
   private String description;
 
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "image")
+  private Set<Image> image;
+
   private LocalDateTime lastLogin;
   private double latitude;
   private double longitude;
@@ -86,13 +90,22 @@ public class User {
               String password,
               String gender,
               String interestedInGender,
-              String description) {
-
-
+              String description,
+              Set<Image> image) {
+    this.firstName = firstName;
+    this.middleName = middleName;
+    this.surname = surname;
+    this.dateOfBirth = dateOfBirth;
+    this.email = email;
+    this.password = password;
+    this.gender = gender;
+    this.interestedInGender = interestedInGender;
+    this.description = description;
+    this.image = image;
   }
 
   //Empty constructor for JPA
   public User() {
-
   }
+
 }
