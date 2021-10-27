@@ -1,30 +1,16 @@
 package com.ittinder.rest.Controllers;
 
-import ch.qos.logback.core.joran.conditional.ElseAction;
-
 import com.ittinder.rest.Entities.Chat;
 import com.ittinder.rest.Entities.User;
-import com.ittinder.rest.Entities.preMatch;
-import com.ittinder.rest.Repositories.UserRepository;
 import com.ittinder.rest.Service.ChatService;
 import com.ittinder.rest.Service.UserService;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.yaml.snakeyaml.events.Event;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Email;
-import javax.websocket.server.PathParam;
-import java.util.*;
+import org.springframework.http.HttpStatus;
 
 @RestController
 @RequestMapping("/user")
@@ -73,5 +59,8 @@ public class UserController {
   public List<Chat> getChatsFromUser(){
     return this.chatService.getChatsFromUser();
   }
+
+  @PostMapping("Premium")
+  public User setUserPremium() {return this.userService.setUserPremium();}
 }
 

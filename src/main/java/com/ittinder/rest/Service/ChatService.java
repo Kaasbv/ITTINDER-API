@@ -48,4 +48,5 @@ public class ChatService {
     User currentUser = sessionService.getUser();
     return chatRepository.findChatByAffectedUserIdOrInitiatedUserId(currentUser.getId(), currentUser.getId());
   }
+
 }

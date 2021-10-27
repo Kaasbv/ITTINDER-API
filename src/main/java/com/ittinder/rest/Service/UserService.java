@@ -1,7 +1,7 @@
 package com.ittinder.rest.Service;
 import com.ittinder.rest.Repositories.*;
 import com.ittinder.rest.Entities.*;
-import com.ittinder.rest.Service.SessionService;
+
 import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
@@ -70,5 +70,11 @@ public class UserService {
   public List<User> getUserStream(){
     User user = sessionService.getUser();
     return userRepository.findRandomUsers(user.getId(), PageRequest.of(0,10));
+  }
+  public User setUserPremium(){
+    User currentUser = sessionService.getUser();
+    User premiumUser = getCurrentUser();
+    userRepository.save(premiumUser);
+    return premiumUser;
   }
 }
