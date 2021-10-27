@@ -25,7 +25,8 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "user")
-public class User {
+@DiscriminatorValue("normal")
+public class User extends BaseUser {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -107,5 +108,9 @@ public class User {
   //Empty constructor for JPA
   public User() {
   }
+
+  public String getType() {
+    return "normal";
+}
 
 }
