@@ -27,15 +27,7 @@ public class Image {
 
   private String image;
 
-//  public Image(String user, String image) {
-//    this.user = user;
-//    this.image = image;
-//  }
-
   public Image() {
-  }
-
-  public Image(User user) {
   }
 
   public Image(User user, MultipartFile multipartFile) {
