@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -42,6 +42,6 @@ public class UserServiceTest {
     //Act
     Boolean emailExists = sut.checkIfEmailExists("test@gmail.com");
     //Assert
-    assertTrue(emailExists);
+    assertFalse(emailExists);
   }
 }
