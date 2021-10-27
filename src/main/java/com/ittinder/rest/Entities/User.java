@@ -69,11 +69,11 @@ public class User {
   private double longitude;
   private String currentLocation;
 
-  @JsonManagedReference
+  @JsonManagedReference(value="user-prematch-initiated")
   @OneToMany(mappedBy = "initiatedUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   Set<preMatch> preMatchAsInitiated;
 
-  @JsonManagedReference
+  @JsonManagedReference(value="user-prematch-affected")
   @OneToMany(mappedBy = "affectedUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   Set<preMatch> preMatchAsAffected;
 

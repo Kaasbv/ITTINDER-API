@@ -33,9 +33,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "(pre_match.pre_match_id is null OR " +
             "(pre_match.changed_date is null or DATEDIFF(CURDATE(), pre_match.changed_date) > 3))" +
         "and user.id != :id", nativeQuery = true)
-  List<User> findRandomUsers(@Param("id") Integer id, Pageable pageable);
-
-
-
-
+  List<User> findRandomUsers(@Param("id") long id, Pageable pageable);
 }

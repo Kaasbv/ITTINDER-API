@@ -23,7 +23,7 @@ public class Chat {
   private long id;
 
   @ManyToOne
-  private User iniatedUser;
+  private User initiatedUser;
 
   @ManyToOne
   private User affectedUser;
@@ -33,8 +33,8 @@ public class Chat {
   @OrderColumn(name = "id")
   private Message[] messages;
 
-  public Chat(User iniatedUser, User affectedUser) {
-    this.iniatedUser = iniatedUser;
+  public Chat(User initiatedUser, User affectedUser) {
+    this.initiatedUser = initiatedUser;
     this.affectedUser = affectedUser;
   }
 
