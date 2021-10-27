@@ -2,7 +2,14 @@ package com.ittinder.rest.Controllers;
 
 import ch.qos.logback.core.joran.conditional.ElseAction;
 import com.ittinder.rest.Entities.User;
+import com.ittinder.rest.Entities.preMatch;
 import com.ittinder.rest.Repositories.UserRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,6 +89,29 @@ public class UserController {
 
     userRepository.save(user);
     return ResponseEntity.ok(HttpStatus.NO_CONTENT);
+  }
+
+  @GetMapping("/getUsers")
+  public List<User> getAll(@RequestParam(required = false) Integer id){
+    List<User> users = new ArrayList<>();
+
+    if (id == 0)  {
+      users.addAll(userRepository.findAll());
+    }
+    else {
+      users.addAll(userRepository.findUserById(id));
+    }
+    return users;
+  }
+
+  @ResponseBody
+  @GetMapping("/randomUserStream")
+  public List<User> getRandomUsers(@RequestParam Integer id){
+    List<User> randomUsers = new ArrayList<>();
+
+    randomUsers.addAll(userRepository.findRandomUsers(id, PageRequest.of(0,10)));
+
+    return  randomUsers;
   }
 }
 

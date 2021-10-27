@@ -1,9 +1,16 @@
 package com.ittinder.rest.Entities;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.ittinder.rest.ValidPassword;
 import lombok.Getter;
 import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.ittinder.rest.ValidPassword;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -17,6 +24,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@Table(name = "user")
 public class User {
 
   @Id
@@ -32,6 +40,7 @@ public class User {
 
   @NotEmpty(message = "Last name can't be empty")
   @Size(min = 2, max = 15)
+  @NotEmpty(message = "Last name can't be empty")
   private String surname;
 
   @Past(message = "Date of birth must be in the past")
@@ -63,6 +72,14 @@ public class User {
   private double latitude;
   private double longitude;
   private String currentLocation;
+
+  @JsonManagedReference
+  @OneToMany(mappedBy = "initiatedUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  Set<preMatch> preMatchAsInitiated;
+
+  @JsonManagedReference
+  @OneToMany(mappedBy = "affectedUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  Set<preMatch> preMatchAsAffected;
 
   // Constructor
   public User(String firstName,
