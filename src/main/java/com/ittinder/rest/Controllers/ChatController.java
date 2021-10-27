@@ -1,13 +1,7 @@
 package com.ittinder.rest.Controllers;
 
-import com.ittinder.rest.Entities.Chat;
 import com.ittinder.rest.Entities.Message;
-import com.ittinder.rest.Entities.User;
-import com.ittinder.rest.Entities.preMatch;
-import com.ittinder.rest.Repositories.ChatRepository;
-import com.ittinder.rest.Repositories.MessageRepository;
-import com.ittinder.rest.Repositories.UserRepository;
-import com.ittinder.rest.Service.SessionService;
+import com.ittinder.rest.Service.ChatService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
@@ -19,61 +13,29 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class ChatController {
-  private final ChatRepository chatRepository;
-  private final MessageRepository messageRepository;
-  private final UserRepository userRepository;
-  private final SessionService sessionService;
+  private final ChatService chatService;
 
-  ChatController(
-    ChatRepository repository,
-    MessageRepository messageRepository,
-    UserRepository userRepository,
-    SessionService sessionService
-    ) {
-    this.chatRepository = repository;
-    this.messageRepository = messageRepository;
-    this.userRepository = userRepository;
-    this.sessionService = sessionService;
-  }
-
-  @GetMapping("/getChats")
-  public List<Chat> getAll(@RequestParam(required = false) Integer initiatedUser){
-    List<Chat> foundChats = new ArrayList<>();
-
-    if (initiatedUser == null) {
-      foundChats.addAll(chatRepository.findAll());
-    }
-    else {
-      foundChats.addAll(chatRepository.findChatByAffectedUserId(initiatedUser));
-    }
-    return foundChats;
+  ChatController(ChatService chatService) {
+    this.chatService = chatService;
   }
 
   @GetMapping("/chat/{id}/messages")
   public List<Message> getChatMessages(@PathVariable Long id, @RequestParam String startDate, @RequestParam String endDate){
-    return messageRepository.findByCreatedDateBetweenAndChatId(startDate, endDate, id);
+    return chatService.getChatMessages(id, startDate, endDate);
   }
 
   @PostMapping("/chat/{id}/messages")
-  public Message postMessage(@PathVariable Long id, @RequestBody String message){
-    User currentUser = sessionService.getUser();
-    Chat chat = chatRepository.getById(id);
-    Message newMessage = new Message(currentUser, chat, message);
-    
-    messageRepository.save(newMessage);
-
-    return newMessage;
+  public void postMessage(@PathVariable Long id, @RequestBody String message){
+    chatService.postMessage(id, message);
   }
 
   @DeleteMapping("/chat/{id}")
   public ResponseEntity<HttpStatus> deleteChat(@PathVariable Long id){
-    chatRepository.deleteById(id);
+    chatService.deleteChat(id);
     return ResponseEntity.noContent().build();
   }
-
 }
