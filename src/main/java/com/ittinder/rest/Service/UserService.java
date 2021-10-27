@@ -32,13 +32,16 @@ public class UserService {
     return sessionService.getUser();
   }
 
+
   public void updateUser(User userDetails) {
+    //retrieves values of the user based on the current user
     User user = sessionService.getUser();
     String email = user.getEmail();
     String gender = user.getGender();
     String interestedInGender = user.getInterestedInGender();
     String description = user.getDescription();
 
+    //assigns the input of the request body to the user
     user.setEmail(userDetails.getEmail());
     user.setGender(userDetails.getGender());
     user.setInterestedInGender(userDetails.getInterestedInGender());

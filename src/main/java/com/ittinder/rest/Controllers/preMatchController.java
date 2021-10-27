@@ -38,6 +38,8 @@ public class preMatchController {
     return foundMatches;
   }
 
+
+
   @PostMapping("/SwipeRight")
   @ResponseBody
   public ResponseEntity<HttpStatus> SwipeRight(@RequestParam long idUser1, long idUser2){
@@ -46,6 +48,7 @@ public class preMatchController {
     preMatch preMatchFound = preMatchRespository.getPreMatchByAffectedUserAndInitiatedUserOrInitiatedUserAndAffectedUser(user1, user2, user1, user2);
     Date date = new Date();
 
+    //checks which user is registred as which user in the table
     if (!(preMatchFound == null)){
       if (preMatchFound.getInitiatedUser().getId() == idUser1){
         preMatchFound.setInitiatedUserChoice(true);
@@ -53,6 +56,7 @@ public class preMatchController {
       else{
         preMatchFound.setAffectedUserChoice(true);
       }
+      //If both values are true a new chat is created with both users assigned to the new chat
       if (preMatchFound.isAffectedUserChoice() == true && preMatchFound.isInitiatedUserChoice() == true) {
         createChat(preMatchFound);
       }
@@ -81,6 +85,7 @@ public class preMatchController {
     preMatch preMatchFound = preMatchRespository.getPreMatchByAffectedUserAndInitiatedUserOrInitiatedUserAndAffectedUser(user1, user2, user1, user2);
     Date date = new Date();
 
+    //checks which user is registered as which user in the table
     if (!(preMatchFound == null)){
       if (preMatchFound.getInitiatedUser().getId() == idUser1){
         preMatchFound.setInitiatedUserChoice(false);
