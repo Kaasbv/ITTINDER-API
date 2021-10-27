@@ -1,5 +1,6 @@
 package com.ittinder.rest.service;
 
+import org.hibernate.mapping.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,6 +8,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.Optional;
 
 import com.ittinder.rest.Repositories.UserRepository;
 import com.ittinder.rest.Entities.User;
@@ -33,7 +37,8 @@ public class UserServiceTest {
   @DisplayName("Testing checkifEmailExists")
   public void testGetChatMessages() {
     //Arrange
-    when(userRepository.findByEmailIgnoreCase("test@gmail.com").isEmpty()).thenReturn(true);
+    ArrayList<User> emptyList = new ArrayList<>();
+    when(userRepository.findByEmailIgnoreCase("test@gmail.com")).thenReturn(emptyList);
     //Act
     Boolean emailExists = sut.checkIfEmailExists("test@gmail.com");
     //Assert
