@@ -79,6 +79,6 @@ public class PreferencesController {
       });
     });
 
-    return ResponseEntity.noContent().build();`
+    return ResponseEntity.noContent().build();
   }
 }
