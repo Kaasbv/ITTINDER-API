@@ -11,6 +11,7 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Set;
 
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @Getter
@@ -31,7 +32,6 @@ public class User {
 
   @NotEmpty(message = "Last name can't be empty")
   @Size(min = 2, max = 15)
-  @NotEmpty(message = "Last name can't be empty")
   private String surname;
 
   @Past(message = "Date of birth must be in the past")
@@ -56,6 +56,9 @@ public class User {
   @Size(min = 10, max = 256, message = "Description must be between 10 and 256 characters")
   private String description;
 
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "image")
+  private Set<Image> image;
+
   private LocalDateTime lastLogin;
   private double latitude;
   private double longitude;
@@ -70,7 +73,8 @@ public class User {
               String password,
               String gender,
               String interestedInGender,
-              String description) {
+              String description,
+              Set<Image> image) {
     this.firstName = firstName;
     this.middleName = middleName;
     this.surname = surname;
@@ -80,6 +84,7 @@ public class User {
     this.gender = gender;
     this.interestedInGender = interestedInGender;
     this.description = description;
+    this.image = image;
   }
 
   //Empty constructor for JPA
