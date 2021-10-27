@@ -53,6 +53,9 @@ public class preMatchController {
       else{
         preMatchFound.setAffectedUserChoice(true);
       }
+      if (preMatchFound.isAffectedUserChoice() == true && preMatchFound.isInitiatedUserChoice() == true) {
+        createChat(preMatchFound);
+      }
       preMatchFound.setChangedDate(date);
       preMatchRespository.save(preMatchFound);
     }
@@ -101,6 +104,13 @@ public class preMatchController {
       preMatchRespository.save(preMatch);
     }
     return ResponseEntity.ok(HttpStatus.OK);
+  }
+
+  public void createChat(preMatch preMatch) {
+      Chat chat = new Chat();
+      chat.setAffectedUser(preMatch.getAffectedUser());
+      chat.setIniatedUser(preMatch.getInitiatedUser());
+      chatRepository.save(chat);
   }
 
 

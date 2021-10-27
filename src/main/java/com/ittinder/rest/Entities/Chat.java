@@ -1,5 +1,7 @@
 package com.ittinder.rest.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,17 +15,20 @@ import javax.persistence.OneToOne;
 import javax.persistence.OrderColumn;
 
 @Entity
+@lombok.Getter
+@lombok.Setter
 public class Chat {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
-  
+
   @ManyToOne
   private User initiatedUser;
 
   @ManyToOne
   private User affectedUser;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "chat", cascade = { CascadeType.ALL }, orphanRemoval = true)
   @OrderColumn(name = "id")
   private Message[] messages;
