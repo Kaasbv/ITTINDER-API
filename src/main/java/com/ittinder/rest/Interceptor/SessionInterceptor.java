@@ -1,4 +1,3 @@
-
 package com.ittinder.rest.Interceptor;
 
 import javax.servlet.http.Cookie;
@@ -28,7 +27,7 @@ public class SessionInterceptor implements HandlerInterceptor {
       User user = sessionService.getUserBySessionId(sessionId);
 
       if (user != null) {
-        request.setAttribute("user", user);
+        request.setAttribute("logged_in_user_id", user.getId());
       }
     }
     //if returned false, we need to make sure 'response' is sent

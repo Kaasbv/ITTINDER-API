@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -29,8 +30,8 @@ public class ChatController {
   }
 
   @PostMapping("/chat/{id}/messages")
-  public void postMessage(@PathVariable Long id, @RequestBody String message){
-    chatService.postMessage(id, message);
+  public void postMessage(@PathVariable Long id, @RequestBody String message, HttpServletRequest request){
+    chatService.postMessage(id, message, request);
   }
 
   @DeleteMapping("/chat/{id}")

@@ -47,14 +47,14 @@ public class UserService {
     return !userRepository.findByEmailIgnoreCase(email).isEmpty();
   }
   
-  public User getCurrentUser() {
-    return sessionService.getUser();
+  public User getCurrentUser(HttpServletRequest request) {
+    return sessionService.getUser(request);
   }
 
 
-  public void updateUser(User userDetails) {
+  public void updateUser(User userDetails, HttpServletRequest request) {
     //retrieves values of the user based on the current user
-    User user = sessionService.getUser();
+    User user = sessionService.getUser(request);
     String email = user.getEmail();
     String gender = user.getGender();
     String interestedInGender = user.getInterestedInGender();
@@ -86,8 +86,8 @@ public class UserService {
     userRepository.save(user);
   }
 
-  public List<User> getUserStream(){
-    User user = sessionService.getUser();
+  public List<User> getUserStream(HttpServletRequest request) {
+    User user = sessionService.getUser(request);
     return userRepository.findRandomUsers(user.getId(), PageRequest.of(0,10));
   }
 

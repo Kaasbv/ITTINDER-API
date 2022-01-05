@@ -6,6 +6,7 @@ import com.ittinder.rest.Repositories.UserRepository;
 
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Service
@@ -27,14 +28,10 @@ public class SessionService {
     return session.getUser();
   }
 
-  public User getUser() throws RuntimeException{
-    if(userId == 0){
+  public User getUser(HttpServletRequest request) throws RuntimeException{
+    Long userId = request.getAttribute("logged_in_user_id") != null ? (Long) request.getAttribute("logged_in_user_id") : null;
+    if(userId == null) return null;
 
-    }
-    try {
-      return userRepository.getById(userId);
-    } catch (Exception e) {
-      throw new RuntimeException("User with userid " + userId + " not defined.");
-    }
+    return userRepository.getById(userId);
   }
 }

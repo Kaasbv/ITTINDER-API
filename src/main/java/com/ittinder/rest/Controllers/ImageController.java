@@ -1,7 +1,6 @@
 package com.ittinder.rest.Controllers;
 
 import com.ittinder.rest.Entities.Image;
-import com.ittinder.rest.Entities.User;
 import com.ittinder.rest.Repositories.ImageRepository;
 import com.ittinder.rest.Repositories.UserRepository;
 import com.ittinder.rest.Service.SessionService;
@@ -13,10 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.util.StringUtils;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController
@@ -33,9 +32,9 @@ public class ImageController {
   }
 
   @PostMapping("/user/{id}/image")
-  public ResponseEntity<HttpStatus> saveImage(@RequestParam MultipartFile multipartFile) throws IOException {
+  public ResponseEntity<HttpStatus> saveImage(@RequestParam MultipartFile multipartFile, HttpServletRequest request) throws IOException {
 
-    Image image = new Image(sessionService.getUser(), multipartFile);
+    Image image = new Image(sessionService.getUser(request), multipartFile);
 
     String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
     image.setImage(fileName);

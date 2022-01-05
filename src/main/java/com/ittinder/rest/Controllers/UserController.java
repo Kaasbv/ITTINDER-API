@@ -45,30 +45,25 @@ public class UserController {
   //Get current logged in user by id
   @GetMapping
   public User getUser(HttpServletRequest request) {
-    User user = request.getAttribute("user") != null ? (User) request.getAttribute("user") : null;
-    Hibernate.initialize(user.getImage());
-    Hibernate.initialize(user.getPreMatchAsAffected());
-    Hibernate.initialize(user.getPreMatchAsInitiated());
-//    Hibernate.initialize(user);
-    return user;
+    return userService.getCurrentUser(request);
   }
 
   //Update user info
   @PutMapping("/update")
-  public ResponseEntity<HttpStatus> updateUser(@RequestBody User userDetails) {
-    userService.updateUser(userDetails);
+  public ResponseEntity<HttpStatus> updateUser(@RequestBody User userDetails, HttpServletRequest request) {
+    userService.updateUser(userDetails, request);
     return ResponseEntity.ok(HttpStatus.NO_CONTENT);
   }
 
   @ResponseBody
   @GetMapping("/stream")
-  public List<User> getStream(){
-    return this.userService.getUserStream();
+  public List<User> getStream(HttpServletRequest request) {
+    return this.userService.getUserStream(request);
   }
 
   @GetMapping("/chats")
-  public List<Chat> getChatsFromUser(){
-    return this.chatService.getChatsFromUser();
+  public List<Chat> getChatsFromUser(HttpServletRequest request) {
+    return this.chatService.getChatsFromUser(request);
   }
 
   @PostMapping("/login")

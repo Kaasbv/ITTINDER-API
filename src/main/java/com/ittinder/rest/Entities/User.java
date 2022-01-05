@@ -50,7 +50,6 @@ public class User {
 
   private String description;
 
-  @JsonIgnore
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "image")
   private Set<Image> image;
 
@@ -62,12 +61,12 @@ public class User {
 
   @JsonIgnore
   @JsonManagedReference(value="user-prematch-initiated")
-  @OneToMany(mappedBy = "initiatedUser", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "initiatedUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   Set<preMatch> preMatchAsInitiated;
 
   @JsonIgnore
   @JsonManagedReference(value="user-prematch-affected")
-  @OneToMany(mappedBy = "affectedUser", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "affectedUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   Set<preMatch> preMatchAsAffected;
 
   // Constructor

@@ -1,10 +1,11 @@
 package com.ittinder.rest.Service;
 import com.ittinder.rest.Repositories.*;
 import com.ittinder.rest.Entities.*;
-import com.ittinder.rest.Service.SessionService;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Service
 public class ChatService {
@@ -30,11 +31,11 @@ public class ChatService {
     return messageRepository.findByCreatedDateBetweenAndChatId(startDate, endDate, id);
   }
 
-  public Message postMessage(Long id, String message){
-    User currentUser = sessionService.getUser();
+  public Message postMessage(Long id, String message, HttpServletRequest request){
+    User currentUser = sessionService.getUser(request);
     Chat chat = chatRepository.getById(id);
     Message newMessage = new Message(currentUser, chat, message);
-    
+
     messageRepository.save(newMessage);
 
     return newMessage;
@@ -44,8 +45,8 @@ public class ChatService {
     chatRepository.deleteById(id);
   }
 
-  public List<Chat> getChatsFromUser(){
-    User currentUser = sessionService.getUser();
+  public List<Chat> getChatsFromUser(HttpServletRequest request) {
+    User currentUser = sessionService.getUser(request);
     return chatRepository.findChatByAffectedUserIdOrInitiatedUserId(currentUser.getId(), currentUser.getId());
   }
 }
