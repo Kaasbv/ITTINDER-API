@@ -1,30 +1,20 @@
 package com.ittinder.rest.Controllers;
 
-import ch.qos.logback.core.joran.conditional.ElseAction;
-
 import com.ittinder.rest.Entities.Chat;
 import com.ittinder.rest.Entities.User;
-import com.ittinder.rest.Entities.preMatch;
-import com.ittinder.rest.Repositories.UserRepository;
 import com.ittinder.rest.Service.ChatService;
 import com.ittinder.rest.Service.UserService;
 
-import org.springframework.data.domain.PageRequest;
+import org.hibernate.Hibernate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.yaml.snakeyaml.events.Event;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Email;
-import javax.websocket.server.PathParam;
-import java.util.*;
+import org.springframework.http.HttpStatus;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/user")
@@ -43,6 +33,8 @@ public class UserController {
     String email = newUser.getEmail();
 
     if (!userService.checkIfEmailExists(email)) {
+      System.out.println("Creating user");
+
       userService.createUser(newUser);
       return ResponseEntity.ok(HttpStatus.CREATED);
     } else {
@@ -52,8 +44,13 @@ public class UserController {
 
   //Get current logged in user by id
   @GetMapping
-  public User getUser() {
-    return userService.getCurrentUser();
+  public User getUser(HttpServletRequest request) {
+    User user = request.getAttribute("user") != null ? (User) request.getAttribute("user") : null;
+    Hibernate.initialize(user.getImage());
+    Hibernate.initialize(user.getPreMatchAsAffected());
+    Hibernate.initialize(user.getPreMatchAsInitiated());
+//    Hibernate.initialize(user);
+    return user;
   }
 
   //Update user info
@@ -72,6 +69,19 @@ public class UserController {
   @GetMapping("/chats")
   public List<Chat> getChatsFromUser(){
     return this.chatService.getChatsFromUser();
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity<User> login(@RequestBody User user, HttpServletResponse response) {
+    try {
+      return ResponseEntity.ok(userService.login(
+          user.getEmail(),
+          user.getPassword(),
+          response
+      ));
+    }catch(Exception e) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
   }
 }
 

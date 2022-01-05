@@ -1,5 +1,6 @@
 package com.ittinder.rest.service;
 
+import com.ittinder.rest.Repositories.SessionRepository;
 import org.hibernate.mapping.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,16 +22,18 @@ public class UserServiceTest {
   private UserService sut;
   private UserRepository userRepository;
   private SessionService sessionService;
+  private SessionRepository sessionRepository;
 
   @BeforeEach
   public void beforeEach() {
     userRepository = mock(UserRepository.class);
     sessionService = mock(SessionService.class);
+    sessionRepository = mock(SessionRepository.class);
 
     User user = mock(User.class);
     when(sessionService.getUser()).thenReturn(user);
 
-    sut = new UserService(userRepository, sessionService);
+    sut = new UserService(userRepository, sessionService, sessionRepository);
   }
   
   @Test
