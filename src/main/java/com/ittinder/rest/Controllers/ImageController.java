@@ -35,14 +35,14 @@ public class ImageController {
   @PostMapping("/user/{id}/image")
   public ResponseEntity<HttpStatus> saveImage(@RequestParam MultipartFile multipartFile) throws IOException {
 
-    Image image = new Image(sessionService.getUser(), multipartFile);
+    Image image = new Image(sessionService.getUser());
 
     String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
     image.setImage(fileName);
 
     Image savedImage = imageRepository.save(image);
 
-    String uploadDir = "images/" + savedImage.getImageId();
+    String uploadDir = "public/profile_images/" + savedImage.getImageId();
 
     ImageService.saveFile(uploadDir, fileName, multipartFile);
 

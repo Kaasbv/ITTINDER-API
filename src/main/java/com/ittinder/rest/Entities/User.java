@@ -1,7 +1,6 @@
 package com.ittinder.rest.Entities;
 import lombok.Getter;
 import lombok.Setter;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -11,13 +10,10 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ittinder.rest.ValidPassword;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.List;
 import java.util.Set;
 
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
@@ -65,8 +61,9 @@ public class User {
   @Size(min = 10, max = 256, message = "Description must be between 10 and 256 characters")
   private String description;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "image")
-  private Set<Image> image;
+  @JsonManagedReference(value="user-images")
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+  private List<Image> image;
 
   private LocalDateTime lastLogin;
   private double latitude;
@@ -91,7 +88,7 @@ public class User {
               String gender,
               String interestedInGender,
               String description,
-              Set<Image> image) {
+              List<Image> image) {
     this.firstName = firstName;
     this.middleName = middleName;
     this.surname = surname;

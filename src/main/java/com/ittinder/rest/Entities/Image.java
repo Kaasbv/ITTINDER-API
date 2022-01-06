@@ -1,5 +1,6 @@
 package com.ittinder.rest.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ittinder.rest.Service.ImageService;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public class Image {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long imageId;
 
+  @JsonBackReference(value="user-images")
   @ManyToOne
   private User user;
 
@@ -30,7 +32,7 @@ public class Image {
   public Image() {
   }
 
-  public Image(User user, MultipartFile multipartFile) {
+  public Image(User user) {
     this.user = user;
   }
 
