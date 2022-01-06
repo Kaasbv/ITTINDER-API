@@ -1,7 +1,7 @@
 package com.ittinder.rest.Entities;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.ittinder.rest.Services.ImageService;
+import com.ittinder.rest.Service.ImageService;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.PersistenceConstructor;
@@ -32,5 +32,11 @@ public class Image {
 
   public Image(User user, MultipartFile multipartFile) {
     this.user = user;
+  }
+
+  public String getPhotosImagePath() {
+    if (image == null || imageId == null) return null;
+
+    return "/images/" + imageId + "/" + image;
   }
 }
