@@ -47,6 +47,13 @@ public class ChatService {
 
   public List<Chat> getChatsFromUser(HttpServletRequest request) {
     User currentUser = sessionService.getUser(request);
-    return chatRepository.findChatByAffectedUserIdOrInitiatedUserId(currentUser.getId(), currentUser.getId());
+    List<Chat> chats = chatRepository.findChatByAffectedUserIdOrInitiatedUserId(currentUser.getId(), currentUser.getId());
+
+    for(Chat chat : chats){
+      Message lastMessage = messageRepository.getByChatIdOrderByCreatedDateDesc(chat.getId());
+      chat.setLastMessage(lastMessage);
+    }
+
+    return chats;
   }
 }
