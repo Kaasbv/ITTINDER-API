@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
   List<Message> findByCreatedDateBetweenAndChatId(String from, String to, Long chatId);
+  Message getByChatIdOrderByCreatedDateDesc(Long chatId);
 }

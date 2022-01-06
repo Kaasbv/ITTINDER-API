@@ -1,5 +1,6 @@
 package com.ittinder.rest.Controllers;
 
+import com.ittinder.rest.Classes.UserWithSessionId;
 import com.ittinder.rest.Entities.Chat;
 import com.ittinder.rest.Entities.User;
 import com.ittinder.rest.Service.ChatService;
@@ -67,7 +68,7 @@ public class UserController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<User> login(@RequestBody User user, HttpServletResponse response) {
+  public ResponseEntity<UserWithSessionId> login(@RequestBody User user, HttpServletResponse response) {
     try {
       return ResponseEntity.ok(userService.login(
           user.getEmail(),

@@ -1,4 +1,5 @@
 package com.ittinder.rest.Service;
+import com.ittinder.rest.Classes.UserWithSessionId;
 import com.ittinder.rest.Repositories.*;
 import com.ittinder.rest.Entities.*;
 import com.ittinder.rest.Service.SessionService;
@@ -95,7 +96,7 @@ public class UserService {
     return passwordEncoder.encode(password);
   }
 
-  public User login(String email, String password, HttpServletResponse response) throws Exception {
+  public UserWithSessionId login(String email, String password, HttpServletResponse response) throws Exception {
     User user = userRepository.findByEmailIgnoreCase(email).get(0);
     if (passwordEncoder.matches(password, user.getPassword())) {
       //Create session
@@ -103,7 +104,8 @@ public class UserService {
       sessionRepository.save(session);
       Cookie cookie = new Cookie("session_id", session.getSessionId());
       response.addCookie(cookie);
-      return user;
+
+      return new UserWithSessionId(user, session.getSessionId());
     }else{
       throw new Exception("Invalid email or password");
     }
