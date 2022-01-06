@@ -1,4 +1,4 @@
-package com.ittinder.rest.Services;
+package com.ittinder.rest.Service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

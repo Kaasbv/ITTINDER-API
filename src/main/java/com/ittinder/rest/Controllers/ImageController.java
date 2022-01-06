@@ -4,8 +4,8 @@ import com.ittinder.rest.Entities.Image;
 import com.ittinder.rest.Entities.User;
 import com.ittinder.rest.Repositories.ImageRepository;
 import com.ittinder.rest.Repositories.UserRepository;
+import com.ittinder.rest.Service.ImageService;
 import com.ittinder.rest.Service.SessionService;
-import com.ittinder.rest.Services.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,14 +35,14 @@ public class ImageController {
   @PostMapping("/user/{id}/image")
   public ResponseEntity<HttpStatus> saveImage(@RequestParam MultipartFile multipartFile) throws IOException {
 
-    Image image = new Image(sessionService.getUser(), multipartFile);
+    Image image = new Image(sessionService.getUser());
 
     String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
     image.setImage(fileName);
 
     Image savedImage = imageRepository.save(image);
 
-    String uploadDir = "images/" + savedImage.getImageId();
+    String uploadDir = "public/profile_images/" + savedImage.getImageId();
 
     ImageService.saveFile(uploadDir, fileName, multipartFile);
 
