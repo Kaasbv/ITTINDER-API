@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-// import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/preferences")
@@ -36,9 +37,9 @@ public class PreferencesController {
   }
 
   @GetMapping("/user")
-  public ResponseEntity<Map<String, Map<String, Boolean>>> getUserPreferences(){
+  public ResponseEntity<Map<String, Map<String, Boolean>>> getUserPreferences(HttpServletRequest request){
     //First grab user preferences
-    User currentUser = sessionService.getUser();
+    User currentUser = sessionService.getUser(request);
     List<UserPreference> userPreferences = userPreferenceRepository.findByUserId(currentUser.getId());
     Map<String, String[]> preferences = UserPreference.getPreferences();
     Map<String, Map<String, Boolean>> userPreferencesMap = new HashMap<>();
@@ -62,9 +63,9 @@ public class PreferencesController {
   }
 
   @PostMapping("/user")
-  public ResponseEntity<Map<String, Map<String, Boolean>>> updateUserPreferences(@RequestBody Map<String, Map<String, Boolean>> updateObject){
+  public ResponseEntity<Map<String, Map<String, Boolean>>> updateUserPreferences(@RequestBody Map<String, Map<String, Boolean>> updateObject, HttpServletRequest request){
     //First grab user preferences
-    User currentUser = sessionService.getUser();
+    User currentUser = sessionService.getUser(request);
    
     updateObject.forEach((String type, Map<String, Boolean> items) -> {
       items.forEach((String name, Boolean preference) -> {
