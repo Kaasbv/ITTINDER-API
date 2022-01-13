@@ -8,11 +8,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ManyToAny;
 
 import java.time.Instant;
+import java.util.Date;
 
 @Entity
+@Getter
+@Setter
 public class Message {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,11 +27,10 @@ public class Message {
 
   private String message;
 
-  @JsonIgnore
+
   @ManyToOne
   private Chat chat;
 
-  @JsonIgnore
   @ManyToOne
   private User user;
 
@@ -38,12 +42,4 @@ public class Message {
   }
 
   public Message(){}
-
-  public String getMessage() {
-    return message;
-  }
-
-  public String getCreatedDate() {
-    return createdDate;
-  }
 }
