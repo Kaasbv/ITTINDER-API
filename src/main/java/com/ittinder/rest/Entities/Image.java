@@ -39,6 +39,6 @@ public class Image {
   public String getPhotosImagePath() {
     if (image == null || imageId == null) return null;
 
-    return "/images/" + imageId + "/" + image;
+    return "/profile_images/" + imageId + "/" + image;
   }
 }

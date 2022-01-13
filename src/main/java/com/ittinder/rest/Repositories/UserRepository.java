@@ -30,6 +30,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
           "where" +
           "(pre_match.pre_match_id is null OR " + //checks if a user has an existing preMatch entity with the user
           "(pre_match.changed_date is null or DATEDIFF(CURDATE(), pre_match.changed_date) > 1))" + // checks if the date difference between now and the changed date of the object is longer than 1 day
-          "and user.id != :id", nativeQuery = true)
+          "and user.id != :id order by RAND()", nativeQuery = true)
   List<User> findRandomUsers(@Param("id") long id, Pageable pageable);
 }
