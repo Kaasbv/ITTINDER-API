@@ -31,7 +31,7 @@ public class ImageController {
     this.sessionService = sessionService;
   }
 
-  @PostMapping("/user/{id}/image")
+  @PostMapping("/user/image")
   public ResponseEntity<HttpStatus> saveImage(@RequestParam MultipartFile multipartFile, HttpServletRequest request) throws IOException {
     Image image = new Image(sessionService.getUser(request));
 
