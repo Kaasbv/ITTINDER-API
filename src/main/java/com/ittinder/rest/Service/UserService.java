@@ -6,10 +6,12 @@ import com.ittinder.rest.Service.SessionService;
 
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -55,19 +57,44 @@ public class UserService {
 
   public void updateUser(User userDetails, HttpServletRequest request) {
     //retrieves values of the user based on the current user
+    System.out.println(userDetails.getFirstName());
     User user = sessionService.getUser(request);
+    String firstname = user.getFirstName();
+    String surname = user.getSurname();
+    LocalDate dateOfBirth = user.getDateOfBirth();
     String email = user.getEmail();
     String gender = user.getGender();
     String interestedInGender = user.getInterestedInGender();
-    String description = user.getDescription();
+    String password = user.getPassword();
+
 
     //assigns the input of the request body to the user
+    user.setFirstName(userDetails.getFirstName());
+    user.setMiddleName(userDetails.getMiddleName());
+    user.setSurname(userDetails.getSurname());
+    user.setDateOfBirth(userDetails.getDateOfBirth());
     user.setEmail(userDetails.getEmail());
     user.setGender(userDetails.getGender());
     user.setInterestedInGender(userDetails.getInterestedInGender());
     user.setDescription(userDetails.getDescription());
+    System.out.println(userDetails.getPassword());
+    if (userDetails.getPassword() != null) {
+      user.setPassword(generateHash(userDetails.getPassword()));
+    }
 
     //Prevent DB setting null values when user does not change all fiels
+    if (user.getFirstName() == null) {
+      user.setFirstName(firstname);
+    }
+
+    if (user.getSurname() == null) {
+      user.setSurname(surname);
+    }
+
+    if (user.getDateOfBirth() == null) {
+      user.setDateOfBirth(dateOfBirth);
+    }
+
     if (user.getGender() == null) {
       user.setGender(gender);
     }
@@ -80,9 +107,10 @@ public class UserService {
       user.setInterestedInGender(interestedInGender);
     }
 
-    if (user.getDescription() == null) {
-      user.setDescription(description);
+    if (user.getPassword() == null) {
+      user.setPassword(password);
     }
+
 
     userRepository.save(user);
   }
