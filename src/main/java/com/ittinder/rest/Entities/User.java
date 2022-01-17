@@ -50,10 +50,7 @@ public class User {
 
   private String description;
 
-  @JsonManagedReference(value="user-images")
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
-  private List<Image> image;
-
+  private String image;
 
   private LocalDateTime lastLogin;
   private double latitude;
@@ -80,7 +77,7 @@ public class User {
               String gender,
               String interestedInGender,
               String description,
-              List<Image> image) {
+              String image) {
     this.firstName = firstName;
     this.middleName = middleName;
     this.surname = surname;
