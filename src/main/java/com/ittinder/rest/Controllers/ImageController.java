@@ -1,6 +1,7 @@
 package com.ittinder.rest.Controllers;
 
 import com.ittinder.rest.Entities.Image;
+import com.ittinder.rest.Entities.User;
 import com.ittinder.rest.Repositories.ImageRepository;
 import com.ittinder.rest.Repositories.UserRepository;
 import com.ittinder.rest.Service.ImageService;
@@ -32,18 +33,18 @@ public class ImageController {
   }
 
   @PostMapping("/user/image")
-  public ResponseEntity<HttpStatus> saveImage(@RequestParam MultipartFile multipartFile, HttpServletRequest request) throws IOException {
-    Image image = new Image(sessionService.getUser(request));
+  public ResponseEntity<User> saveImage(@RequestParam MultipartFile multipartFile, HttpServletRequest request) throws IOException {
+    User user = sessionService.getUser(request);
 
     String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-    image.setImage(fileName);
+    String root = "public/";
+    String uploadDir = "profile_images/" + user.getId();
+    user.setImage("/" + uploadDir + "/" + fileName);
 
-    Image savedImage = imageRepository.save(image);
+    ImageService.saveFile(root + uploadDir, fileName, multipartFile);
 
-    String uploadDir = "public/profile_images/" + savedImage.getImageId();
+    userRepository.save(user);
 
-    ImageService.saveFile(uploadDir, fileName, multipartFile);
-
-    return ResponseEntity.noContent().build();
+    return ResponseEntity.ok(sessionService.getUser(request));
   }
 }

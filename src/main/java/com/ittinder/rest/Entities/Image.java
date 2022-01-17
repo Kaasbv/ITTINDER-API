@@ -20,7 +20,7 @@ public class Image {
   private Long imageId;
 
   @JsonBackReference(value="user-images")
-  @ManyToOne
+  @OneToOne
   private User user;
 
   private int sortNr;
