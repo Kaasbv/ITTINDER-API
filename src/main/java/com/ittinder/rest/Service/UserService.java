@@ -66,6 +66,8 @@ public class UserService {
     String gender = user.getGender();
     String interestedInGender = user.getInterestedInGender();
     String password = user.getPassword();
+    Double latitude = user.getLatitude();
+    Double longitude = user.getLongitude();
 
 
     //assigns the input of the request body to the user
@@ -77,7 +79,9 @@ public class UserService {
     user.setGender(userDetails.getGender());
     user.setInterestedInGender(userDetails.getInterestedInGender());
     user.setDescription(userDetails.getDescription());
-    System.out.println(userDetails.getPassword());
+    user.setLatitude(userDetails.getLatitude());
+    user.setLongitude(userDetails.getLongitude());
+    
     if (userDetails.getPassword() != null) {
       user.setPassword(generateHash(userDetails.getPassword()));
     }
@@ -109,6 +113,14 @@ public class UserService {
 
     if (user.getPassword() == null) {
       user.setPassword(password);
+    }
+
+    if (user.getLongitude() == 0){
+      user.setLongitude(longitude);
+    }
+
+    if (user.getLatitude() == 0){
+      user.setLatitude(latitude);
     }
 
 
