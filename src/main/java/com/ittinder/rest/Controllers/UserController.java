@@ -2,6 +2,7 @@ package com.ittinder.rest.Controllers;
 
 import com.ittinder.rest.Classes.UserWithSessionId;
 import com.ittinder.rest.Entities.Chat;
+import com.ittinder.rest.Entities.Message;
 import com.ittinder.rest.Entities.User;
 import com.ittinder.rest.Service.ChatService;
 import com.ittinder.rest.Service.UserService;
@@ -10,6 +11,7 @@ import org.hibernate.Hibernate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -65,6 +67,18 @@ public class UserController {
   @GetMapping("/chats")
   public List<Chat> getChatsFromUser(HttpServletRequest request) {
     return this.chatService.getChatsFromUser(request);
+  }
+
+  @GetMapping("/messages")
+  public List<Message> getMessagesByTime(@RequestParam String startDate, @RequestParam String endDate, HttpServletRequest request){
+    return chatService.getMessagesByUserAndTime(startDate, endDate, request);
+  }
+
+  @GetMapping("/messages/polling")
+  public List<Message> getMessagesByTimePolling(@RequestParam Long secondsRange, HttpServletRequest request){
+    String startDate = Instant.now().minusSeconds(secondsRange).toString();
+    String endDate = Instant.now().toString();
+    return chatService.getMessagesByUserAndTime(startDate, endDate, request);
   }
 
   @PostMapping("/login")
