@@ -129,7 +129,7 @@ public class UserService {
 
   public List<User> getUserStream(HttpServletRequest request) {
     User user = sessionService.getUser(request);
-    return userRepository.findRandomUsers(user.getId(), PageRequest.of(0,1));
+    return userRepository.findRandomUsers(user.getId(), user.getLatitude(), user.getLongitude(), PageRequest.of(0,1));
   }
 
   public String generateHash(String password) {
