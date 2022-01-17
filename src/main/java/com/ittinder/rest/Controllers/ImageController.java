@@ -6,6 +6,7 @@ import com.ittinder.rest.Repositories.ImageRepository;
 import com.ittinder.rest.Repositories.UserRepository;
 import com.ittinder.rest.Service.ImageService;
 import com.ittinder.rest.Service.SessionService;
+import com.ittinder.rest.Util.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ public class ImageController {
 
     String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
     String root = "public/";
-    String uploadDir = "profile_images/" + user.getId();
+    String uploadDir = "profile_images/" + RandomString.generate();
     user.setImage("/" + uploadDir + "/" + fileName);
 
     ImageService.saveFile(root + uploadDir, fileName, multipartFile);
