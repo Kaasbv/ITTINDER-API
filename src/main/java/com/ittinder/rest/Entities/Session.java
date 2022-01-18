@@ -1,5 +1,6 @@
 package com.ittinder.rest.Entities;
 
+import com.ittinder.rest.Util.RandomString;
 import lombok.Getter;
 
 import javax.persistence.Entity;
@@ -25,20 +26,6 @@ public class Session {
     public Session(User user){
         this.user = user;
         this.createdDate = new Date();
-        this.sessionId = this.generateSessionId();
-    }
-
-    public static String generateSessionId () {//Definitely not copied from stackoverflow
-        final int length = 32;
-        final char[] allAllowed = "abcdefghijklmnopqrstuvwxyzABCDEFGJKLMNPRSTUVWXYZ0123456789".toCharArray();
-
-        Random random = new SecureRandom();
-        StringBuilder password = new StringBuilder();
-
-        for (int i = 0; i < length; i++) {
-            password.append(allAllowed[random.nextInt(allAllowed.length)]);
-        }
-
-        return password.toString();
+        this.sessionId = RandomString.generate();
     }
 }
