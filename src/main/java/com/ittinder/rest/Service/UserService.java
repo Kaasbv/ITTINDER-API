@@ -82,7 +82,7 @@ public class UserService {
     user.setLatitude(userDetails.getLatitude());
     user.setLongitude(userDetails.getLongitude());
 
-    if (userDetails.getPassword() != null && userDetails.getPassword().trim() != "")  {
+    if (userDetails.getPassword().trim() != "")  {
       user.setPassword(generateHash(userDetails.getPassword()));
     }
 
