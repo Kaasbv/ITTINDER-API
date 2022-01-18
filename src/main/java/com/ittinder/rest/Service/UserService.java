@@ -66,8 +66,10 @@ public class UserService {
     String gender = user.getGender();
     String interestedInGender = user.getInterestedInGender();
     String password = user.getPassword();
-    Double latitude = user.getLatitude();
-    Double longitude = user.getLongitude();
+    Double latitude = userDetails.getLatitude();
+    Double longitude = userDetails.getLongitude();
+    System.out.println(latitude);
+    System.out.println(longitude);
 
 
     //assigns the input of the request body to the user
@@ -87,11 +89,11 @@ public class UserService {
     }
 
     //Prevent DB setting null values when user does not change all fiels
-    if (user.getFirstName().trim() != "") {
+    if (user.getFirstName().trim() == "") {
       user.setFirstName(firstname);
     }
 
-    if (user.getSurname().trim() != "") {
+    if (user.getSurname().trim() == "") {
       user.setSurname(surname);
     }
 
@@ -99,15 +101,15 @@ public class UserService {
       user.setDateOfBirth(dateOfBirth);
     }
 
-    if (user.getGender().trim() != "") {
+    if (user.getGender().trim() == "") {
       user.setGender(gender);
     }
 
-    if (user.getEmail().trim() != "") {
+    if (user.getEmail().trim() == "") {
       user.setEmail(email);
     }
 
-    if (user.getInterestedInGender().trim() != "") {
+    if (user.getInterestedInGender().trim() == "") {
       user.setInterestedInGender(interestedInGender);
     }
 
