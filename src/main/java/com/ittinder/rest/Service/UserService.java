@@ -81,17 +81,17 @@ public class UserService {
     user.setDescription(userDetails.getDescription());
     user.setLatitude(userDetails.getLatitude());
     user.setLongitude(userDetails.getLongitude());
-    
-    if (userDetails.getPassword() != null) {
+
+    if (userDetails.getPassword() != null && userDetails.getPassword().trim() != "")  {
       user.setPassword(generateHash(userDetails.getPassword()));
     }
 
     //Prevent DB setting null values when user does not change all fiels
-    if (user.getFirstName() == null) {
+    if (user.getFirstName().trim() != "") {
       user.setFirstName(firstname);
     }
 
-    if (user.getSurname() == null) {
+    if (user.getSurname().trim() != "") {
       user.setSurname(surname);
     }
 
@@ -99,21 +99,18 @@ public class UserService {
       user.setDateOfBirth(dateOfBirth);
     }
 
-    if (user.getGender() == null) {
+    if (user.getGender().trim() != "") {
       user.setGender(gender);
     }
 
-    if (user.getEmail() == null) {
+    if (user.getEmail().trim() != "") {
       user.setEmail(email);
     }
 
-    if (user.getInterestedInGender() == null) {
+    if (user.getInterestedInGender().trim() != "") {
       user.setInterestedInGender(interestedInGender);
     }
 
-    if (user.getPassword() == null) {
-      user.setPassword(password);
-    }
 
     if (user.getLongitude() == 0){
       user.setLongitude(longitude);
