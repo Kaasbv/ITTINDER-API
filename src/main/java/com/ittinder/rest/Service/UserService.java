@@ -65,7 +65,7 @@ public class UserService {
     String email = user.getEmail();
     String gender = user.getGender();
     String interestedInGender = user.getInterestedInGender();
-    String password = user.getPassword();
+//    String password = user.getPassword();
     Double latitude = userDetails.getLatitude();
     Double longitude = userDetails.getLongitude();
     System.out.println(latitude);
@@ -84,9 +84,9 @@ public class UserService {
     user.setLatitude(userDetails.getLatitude());
     user.setLongitude(userDetails.getLongitude());
 
-    if (userDetails.getPassword().trim() != "")  {
-      user.setPassword(generateHash(userDetails.getPassword()));
-    }
+//    if (userDetails.getPassword().trim() != "")  {
+//      user.setPassword(generateHash(userDetails.getPassword()));
+//    }
 
     //Prevent DB setting null values when user does not change all fiels
     if (user.getFirstName().trim() == "") {

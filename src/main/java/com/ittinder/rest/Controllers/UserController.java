@@ -1,5 +1,6 @@
 package com.ittinder.rest.Controllers;
 
+import com.ittinder.rest.Classes.MessagesWithIso;
 import com.ittinder.rest.Classes.UserWithSessionId;
 import com.ittinder.rest.Entities.Chat;
 import com.ittinder.rest.Entities.Message;
@@ -7,7 +8,6 @@ import com.ittinder.rest.Entities.User;
 import com.ittinder.rest.Service.ChatService;
 import com.ittinder.rest.Service.UserService;
 
-import org.hibernate.Hibernate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -79,6 +79,17 @@ public class UserController {
     String startDate = Instant.now().minusSeconds(secondsRange).toString();
     String endDate = Instant.now().toString();
     return chatService.getMessagesByUserAndTime(startDate, endDate, request);
+  }
+
+  @GetMapping("/messages/lastSyncBased")
+  public MessagesWithIso getMessagesByLastSyncBased(@RequestParam String lastSyncIso, HttpServletRequest request){
+    if(lastSyncIso == null || lastSyncIso.length() == 0){
+      lastSyncIso = Instant.parse("1980-04-09T10:15:30.00Z").toString();
+    }
+    String endDate = Instant.now().toString();
+    List<Message> messages = chatService.getMessagesByUserAndTime(lastSyncIso, endDate, request);
+
+    return new MessagesWithIso(messages, endDate);
   }
 
   @PostMapping("/login")
