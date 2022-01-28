@@ -57,7 +57,6 @@ public class UserService {
 
   public void updateUser(User userDetails, HttpServletRequest request) {
     //retrieves values of the user based on the current user
-    System.out.println(userDetails.getFirstName());
     User user = sessionService.getUser(request);
     String firstname = user.getFirstName();
     String surname = user.getSurname();
@@ -67,10 +66,10 @@ public class UserService {
     String interestedInGender = user.getInterestedInGender();
 //    String password = user.getPassword();
     Double latitude = userDetails.getLatitude();
-    Double longitude = userDetails.getLongitude();
-    System.out.println(latitude);
-    System.out.println(longitude);
+    if(latitude != null) latitude = (double)Math.round(latitude * 1000) / 1000;
 
+    Double longitude = userDetails.getLongitude();
+    if(longitude != null) longitude = (double)Math.round(longitude * 1000) / 1000;
 
     //assigns the input of the request body to the user
     user.setFirstName(userDetails.getFirstName());
@@ -121,7 +120,6 @@ public class UserService {
     if (user.getLatitude() == 0){
       user.setLatitude(latitude);
     }
-
 
     userRepository.save(user);
   }
