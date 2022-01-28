@@ -52,9 +52,11 @@ public class preMatchController {
     if (!(preMatchFound == null)){
       if (preMatchFound.getInitiatedUser().getId() == idUser1){
         preMatchFound.setInitiatedUserChoice(true);
+        preMatchFound.setInitiatedUserChosen(true);
       }
       else{
         preMatchFound.setAffectedUserChoice(true);
+        preMatchFound.setAffectedUserChosen(true);
       }
       //If both values are true a new chat is created with both users assigned to the new chat
       if (preMatchFound.isAffectedUserChoice() == true && preMatchFound.isInitiatedUserChoice() == true) {
@@ -69,6 +71,7 @@ public class preMatchController {
       preMatch.setInitiatedUser(user1);
       preMatch.setAffectedUser(user2);
       preMatch.setInitiatedUserChoice(true);
+      preMatch.setInitiatedUserChosen(true);
       preMatch.setChangedDate(date);
 
       //save changes
@@ -89,9 +92,11 @@ public class preMatchController {
     if (!(preMatchFound == null)){
       if (preMatchFound.getInitiatedUser().getId() == idUser1){
         preMatchFound.setInitiatedUserChoice(false);
+        preMatchFound.setInitiatedUserChosen(true);
       }
       else{
         preMatchFound.setAffectedUserChoice(false);
+        preMatchFound.setAffectedUserChosen(true);
       }
       preMatchFound.setChangedDate(date);
       preMatchRespository.save(preMatchFound);
@@ -103,6 +108,7 @@ public class preMatchController {
       preMatch.setInitiatedUser(user1);
       preMatch.setAffectedUser(user2);
       preMatch.setInitiatedUserChoice(false);
+      preMatch.setInitiatedUserChosen(true);
       preMatch.setChangedDate(date);
 
       //save changes

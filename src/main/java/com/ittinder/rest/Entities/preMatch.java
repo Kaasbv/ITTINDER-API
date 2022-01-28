@@ -29,8 +29,10 @@ public class preMatch {
     private User affectedUser;
 
     private boolean initiatedUserChoice;
+    private boolean initiatedUserChosen;
 
     private boolean affectedUserChoice;
+    private boolean affectedUserChosen;
 
     private Date ChangedDate;
 
