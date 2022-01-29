@@ -80,8 +80,8 @@ public class UserService {
     user.setGender(userDetails.getGender());
     user.setInterestedInGender(userDetails.getInterestedInGender());
     user.setDescription(userDetails.getDescription());
-    user.setLatitude(userDetails.getLatitude());
-    user.setLongitude(userDetails.getLongitude());
+    user.setLatitude(latitude);
+    user.setLongitude(longitude);
 
 //    if (userDetails.getPassword().trim() != "")  {
 //      user.setPassword(generateHash(userDetails.getPassword()));
